@@ -8,3 +8,5 @@ import sys
 info =
 
 print('Привет Мир')
+print('Опять привет Мир')
+
