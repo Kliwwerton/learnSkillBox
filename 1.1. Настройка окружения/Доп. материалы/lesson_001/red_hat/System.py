@@ -1,12 +1,13 @@
 # coding -*- UTF-8 -*-
 
-# Нужно собрать сведения об операционной системе и версии Pyтона
+# Нужно собрать сведения об операционной системе и версии Пайтона
 
 import platform
 import sys
 
-info =
+info = 'OS info is \n{} \n\n Python version is {}  {}'.format(platform.uname(), sys.version, platform.architecture())
 
-print('Привет Мир')
-print('Опять привет Мир')
+print(info)
 
+with open('os_info.txt', 'w') as ff:
+    ff.write(info)
