@@ -6,3 +6,5 @@ import platform
 import sys
 
 info =
+
+print('Привет Мир')
