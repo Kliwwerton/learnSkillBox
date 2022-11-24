@@ -5,8 +5,8 @@
 import platform
 import sys
 
-info =
+info = 'OS info is \n{} \n\nPython version is {} {}'.format(platform.uname(), sys.version, platform.architecture())
 
-print('Привет Мир')
-print('Опять привет Мир')
+print(info)
+
 
