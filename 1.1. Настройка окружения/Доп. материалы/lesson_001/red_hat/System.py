@@ -9,4 +9,3 @@ info = 'OS info is \n{} \n\nPython version is {} {}'.format(platform.uname(), sy
 
 print(info)
 
-
