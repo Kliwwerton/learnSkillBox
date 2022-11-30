@@ -23,7 +23,7 @@ paris = sites['Paris']
 moscow_london = ((moscow[0] - london[0]) ** 2 + (moscow[1] - london[1]) ** 2) ** 0.5
 moscow_paris = ((moscow[0] - paris[0]) ** 2 + (moscow[1] - paris[1]) ** 2) ** 0.5
 
-distances['Moscow'] = {}  # TODO Доделай код
+distances['Moscow'] = {}
 distances['Moscow']['London'] = moscow_london
 distances['Moscow']['Paris'] = moscow_paris
 
@@ -43,8 +43,8 @@ distances['Paris']['Moscow'] = paris_moscow
 distances['Paris']['London'] = paris_london
 
 for i in distances:
-    pprint(distances[i])
+    print(distances[i])
 
+pprint(distances)
 
-# Запуливай
 
