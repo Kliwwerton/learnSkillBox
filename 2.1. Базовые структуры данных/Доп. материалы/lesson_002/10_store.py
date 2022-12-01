@@ -40,8 +40,8 @@ lamp_code = goods['Лампа']
 lamps_item = store[lamp_code][0]
 lamps_quantity = lamps_item['quantity']
 lamps_price = lamps_item['price']
-lamps_cost = lamps_quantity * lamps_price
-print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')
+lamps_cost2 = lamps_quantity * lamps_price
+print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost2, 'руб')
 
 table_quantity_0 = store[goods['Стол']][0]['quantity']
 table_quantity_1 = store[goods['Стол']][1]['quantity']
@@ -72,16 +72,12 @@ chair_price_2 = store[goods['Стул']][2]['price']
 chair_cost = chair_quantity_0 * chair_price_0 + chair_quantity_1 * chair_price_1 + chair_quantity_2 * chair_price_2
 print('Стул -', chair_total, 'шт, стоимость', chair_cost, 'руб.')
 
-
-
 # Вывести стоимость каждого товара на складе:
 # один раз распечатать сколько всего столов, стульев и т.д. на складе
 # Формат строки <товар> - <кол-во> шт, стоимость <общая стоимость> руб
 
 # WARNING для знающих циклы: БЕЗ циклов. Да, с переменными; да, неэффективно; да, копипаста.
 # Это задание на ручное вычисление - что бы потом понять как работают циклы и насколько с ними проще жить.
-
-# TODO здесь ваш код
 
 ##########################################################################################
 # ВНИМАНИЕ! После того как __ВСЯ__ домашняя работа сделана и запушена на сервер,         #
