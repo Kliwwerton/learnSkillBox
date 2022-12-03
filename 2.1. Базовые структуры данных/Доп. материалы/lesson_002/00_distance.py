@@ -4,6 +4,7 @@
 # Есть словарь координат городов
 from pprint import pprint
 
+
 sites = {
     'Moscow': (550, 370),
     'London': (510, 510),
