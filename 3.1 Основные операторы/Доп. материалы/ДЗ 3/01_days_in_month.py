@@ -7,6 +7,7 @@
 # Если номер месяца некорректен - сообщить об этом
 
 # Номер месяца получать от пользователя следующим образом
+
 user_input_month = None
 while user_input_month not in range(1, 13):
     user_input_month = int(input("Введите, пожалуйста, номер месяца: "))
