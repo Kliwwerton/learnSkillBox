@@ -8,14 +8,13 @@
 # Формат вывода:
 #   Целочисленное деление ХХХ на YYY дает ZZZ
 
-a, b = 179, 37
+a, b = 11940, 15
 
-# TODO здесь ваш код
 i = 0
 j = a
-while j > b:
+while j >= b:
     i += 1
     j -= b
 print(f'Целочисленное деление {a} на {b} даёт {i}')
-print(a//b)
-print(a%b)
+print(a // b)
+print(a % b)
