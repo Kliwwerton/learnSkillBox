@@ -32,9 +32,9 @@ store = {
 
 # Рассчитать на какую сумму лежит каждого товара на складе.
 #
-# Вывести суммарную стоимость каждого товара на складе c помощью циклов
+# Вывести суммарную стоимость каждого товара на складе с помощью циклов.
 # То есть: всего по лампам, стульям, етс.
-# Формат строки вывода: "<товар> - <кол-во> шт, стоимость <общая стоимость> руб"
+# Формат строки вывода: "<товар> - <кол-во> шт, стоимость <общая стоимость> руб."
 #
 # Алгоритм должен получиться приблизительно такой:
 #
@@ -46,18 +46,28 @@ store = {
 #         подсчет стоимости товара
 #     вывод на консоль количества и стоимости товара на складе
 
-# TODO здесь ваш код
+# total_cost = 0
+# for value in goods:
+#     total = 0
+#     cost = 0
+#     # print(value)
+#     # print(goods[value])
+#     for k in store[goods[value]]:
+#         total += k['quantity']
+#         cost += total * k['price']
+#
+#     print(f'{value} - {total} штук, общая стоимость {cost} рублей.')
+#     total_cost += cost
+# print(f'Общая стоимость товаров на складе - {total_cost} рублей.')
+
 total_cost = 0
 for value in goods:
-    total = 0
+    code_value = goods[value]
     cost = 0
-    # print(value)
-    # print(goods[value])
-    for k in store[goods[value]]:
-        total += k['quantity']
-        cost += total * k['price']
-
-    print(f'{value} - {total} штук, общая стоимость {cost} рублей.')
+    quantity_value = 0
+    for j in store[code_value]:
+        quantity_value += j['quantity']
+        cost += quantity_value * j['price']
+        # print(cost)
     total_cost += cost
-print(f'Общая стоимость товаров на складе - {total_cost} рублей.')
-
+    print(f'Всего {value} на складе {quantity_value} на общую сумму {cost}')
