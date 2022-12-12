@@ -34,7 +34,7 @@ sd.resolution = (x, y)
 #
 #     a += step * 2
 
-quantity_bricks = 25
+quantity_bricks = 30
 
 length_brick = x // quantity_bricks
 height_brick = int(length_brick / 2)
@@ -44,7 +44,7 @@ print(length_brick, height_brick, height_wall)
 a = 1
 for i in range(0, height_wall, height_brick):
     for j in range(- length_brick, x, length_brick):
-        if a % 2 != 0:
+        if a % 2 == 1:
             point_start = sd.get_point(j - 2, i - 2)
             point_finish = sd.get_point(j + length_brick, i + height_brick)
         else:

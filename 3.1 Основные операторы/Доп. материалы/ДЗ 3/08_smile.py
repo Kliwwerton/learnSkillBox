@@ -25,8 +25,8 @@ def smiley_draw(x, y, smiley_color):
     sd.circle(right_aye, radius=10, color=sd.COLOR_RED)
     noose = sd.get_point(x, y - 10)
     sd.circle(noose, radius=5)
-    mouth_point = sd.get_point(x, y - 20)
-    sd.snowflake(mouth_point, length=10)
+    mouth_point = sd.get_point(x, y - 25)
+    sd.snowflake(mouth_point, length=7)
 
 
 # def smiley_draw(point_x, point_y, color, width):
@@ -43,12 +43,12 @@ def smiley_draw(x, y, smiley_color):
 #     print(point_x, point_y)
 #
 #
-def smiley_draw2(x, y, color, width=4):
+def smiley_draw2(x, y, width=4):
 
     """Рисует восьмиугольный смайлик с глазами и носом"""
 
-    point_center = sd.get_point(x, y) # Получение координат для центра смайлика
-    points = [] # Список для хранения координат вершин многогранника
+    point_center = sd.get_point(x, y)  # Получение координат для центра смайлика
+    points = []  # Список для хранения координат вершин многогранника
     # Координаты вершин многогранника (тела смайлика)
     point_a = sd.get_point(x - 30, y - 45)
     point_b = sd.get_point(x - 65, y - 15)
@@ -81,7 +81,7 @@ def smiley_draw2(x, y, color, width=4):
     # Рисуем РОТ
     sd.ellipse(left_bottom=point_left_bottom, right_top=point_right_top, width=0)
     # Рисуем ТЕЛО смайлика
-    sd.polygon(points, color=color, width=width)
+    sd.polygon(points, color=sd.COLOR_RED, width=width)
 
 
 for _ in range(10):
@@ -94,8 +94,8 @@ for _ in range(5):
     point_smiley_x = rd.randint(45, 1155)
     point_smiley_y = rd.randint(45, 735)
     color = sd.random_color()
-    smiley_draw2(point_smiley_x, point_smiley_y, color=sd.COLOR_RED)
+    smiley_draw2(point_smiley_x, point_smiley_y)
 
-# print(smiley_draw2.__doc__)
+print(smiley_draw2.__doc__)
 
 sd.pause()
