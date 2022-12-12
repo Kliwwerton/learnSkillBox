@@ -34,7 +34,7 @@ sd.resolution = (x, y)
 #
 #     a += step * 2
 
-quantity_bricks = 25
+quantity_bricks = 30
 
 length_brick = x // quantity_bricks
 height_brick = int(length_brick / 2)

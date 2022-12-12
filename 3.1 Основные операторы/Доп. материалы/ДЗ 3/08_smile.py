@@ -25,8 +25,8 @@ def smiley_draw(x, y, smiley_color):
     sd.circle(right_aye, radius=10, color=sd.COLOR_RED)
     noose = sd.get_point(x, y - 10)
     sd.circle(noose, radius=5)
-    mouth_point = sd.get_point(x, y - 20)
-    sd.snowflake(mouth_point, length=10)
+    mouth_point = sd.get_point(x, y - 25)
+    sd.snowflake(mouth_point, length=7)
 
 
 # def smiley_draw(point_x, point_y, color, width):
