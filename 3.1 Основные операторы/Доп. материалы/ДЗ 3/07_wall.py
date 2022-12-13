@@ -3,6 +3,8 @@
 # (цикл for)
 
 import simple_draw as sd
+import numpy
+
 sd.background_color = sd.COLOR_WHITE
 
 x, y = 1200, 800
@@ -34,16 +36,17 @@ sd.resolution = (x, y)
 #
 #     a += step * 2
 
-quantity_bricks = 30
+quantity_bricks = 18
 
-length_brick = x // quantity_bricks
+length_brick = round(x / quantity_bricks, 4)
 height_brick = int(length_brick / 2)
 height_wall = int((y // height_brick)*height_brick)
 
-print(length_brick, height_brick, height_wall)
+
+print(f'Длина кирпича - {length_brick}, высота кирпича - {height_brick}, высота стены - {height_wall}')
 a = 1
 for i in range(0, height_wall, height_brick):
-    for j in range(- length_brick, x, length_brick):
+    for j in numpy.arange(- length_brick, x, length_brick):
         if a % 2 == 1:
             point_start = sd.get_point(j - 2, i - 2)
             point_finish = sd.get_point(j + length_brick, i + height_brick)
