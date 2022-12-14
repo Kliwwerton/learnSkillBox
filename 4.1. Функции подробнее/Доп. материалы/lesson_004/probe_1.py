@@ -1,6 +1,6 @@
 import simple_draw as sd
 
-sd.resolution = (1600, 1000)
+sd.resolution = (1200, 800)
 
 
 def draw_the_wall(inc_point_x, inc_point_y, width, step, heihgt):
