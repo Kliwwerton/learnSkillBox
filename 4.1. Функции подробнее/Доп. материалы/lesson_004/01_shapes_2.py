@@ -46,19 +46,15 @@ def draw_triangle(start_point, corner=30, length_side=150):
 
 def draw_square(start_point, corner=30, length_side=150):
     side = sd.vector(start=start_point, angle=corner, length=length_side, width=2)
-    # side.draw(color=sd.COLOR_DARK_RED)
     start_point_side_2 = side
     corner += 360/4
     side_2 = sd.vector(start=start_point_side_2, angle=corner, length=length_side, width=2)
-    # side_2.draw(color=sd.COLOR_DARK_RED)
     start_point_side_3 = side_2
     corner += 360/4
     side_3 = sd.vector(start=start_point_side_3, angle=corner, length=length_side, width=2)
-    # side_3.draw(color=sd.COLOR_DARK_RED)
     start_point_side_4 = side_3
     corner += 360 / 4
-    side_4 = sd.vector(start=start_point_side_4, angle=corner, length=length_side, width=2)
-    # side_4.draw(color=sd.COLOR_DARK_RED)
+    sd.vector(start=start_point_side_4, angle=corner, length=length_side, width=2)
 
 
 def draw_pentagon(start_point, corner=30, length_side=150):
