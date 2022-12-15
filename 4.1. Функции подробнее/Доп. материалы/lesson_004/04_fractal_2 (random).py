@@ -26,7 +26,7 @@ def draw_bunches(start_point, angle, length):
 
 
 root_point = sd.get_point(600, 30)
-draw_bunches(start_point=root_point, angle=90, length=120)
+draw_bunches(start_point=root_point, angle=90, length=150)
 
 sd.pause()
 
