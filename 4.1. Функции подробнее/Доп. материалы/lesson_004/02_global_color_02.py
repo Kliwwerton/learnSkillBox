@@ -33,7 +33,7 @@ COLORS = (
 
 def draw_polygon(start_point=sd.get_point(sd.resolution[0]/2, sd.resolution[1]/2),
                  corners=4,
-                 angle=0, length_side=100, color=sd.COLOR_WHITE, width=2):
+                 angle=0, length_side=100, _color=sd.COLOR_WHITE, width=2):
     alpha = 360 / corners
     betta = start_point
     for i in range(corners - 1):
@@ -42,29 +42,32 @@ def draw_polygon(start_point=sd.get_point(sd.resolution[0]/2, sd.resolution[1]/2
     sd.line(start_point=start_point, end_point=betta, color=color, width=width)
 
 
-print(
-    f'''Список возможных цветов фигур: \n
-      0 - white
-      1 - black
-      2 - red
-      3 - orange
-      4 - yellow
-      5 - green
-      6 - cyan
-      7 - blue
-      8 - purple'''
-      )
+custom_color = None
 
+while not isinstance(custom_color, int):
+    try:
+        custom_color = int(input('''Возможные цвета:
+        0 - white
+        1 - black
+        2 - red
+        3 - orange
+        4 - yellow
+        5 - green
+        6 - cyan
+        7 - blue
+        8 - purple
+        Выберите цвет: '''))
+        if custom_color < 0:
+            print('Вы ввели слишком маленькое значение, попробуйте снова!')
+            custom_color = None
+        elif 0 <= custom_color <= 8:
+            color = COLORS[custom_color]
+        elif custom_color > 8:
+            print('Вы ввели слишком большое значение! Попробуйте снова.')
+            custom_color = None
+    except ValueError:
+        print("Вы ввели не число, пожалуйста введите число от 0 до 8")
 
-custom_color = int(input('Выберите цвет отображения фигур: '))
-
-if custom_color < 0:
-    print('Вы ввели слишком маленькое значение!!!')
-elif custom_color > len(COLORS) - 1:
-    print('Вы ввели слишком большое значение!!!')
-
-
-print(type(custom_color))
 
 color_figure = COLORS[custom_color]
 point_0 = sd.get_point(300, 100)
@@ -73,11 +76,11 @@ point_2 = sd.get_point(300, 450)
 point_3 = sd.get_point(900, 450)
 point_4 = sd.get_point(600, 350)
 
-draw_polygon(start_point=point_0, corners=3, angle=25, length_side=200, color=color_figure)
-draw_polygon(start_point=point_1, corners=4, angle=25, length_side=200, color=color_figure)
-draw_polygon(start_point=point_2, corners=5, angle=25, length_side=200, color=color_figure)
-draw_polygon(start_point=point_3, corners=7, angle=25, length_side=150, color=color_figure)
-draw_polygon(start_point=point_4, corners=5, color=color_figure)
+draw_polygon(start_point=point_0, corners=3, angle=25, length_side=200, _color=color_figure)
+draw_polygon(start_point=point_1, corners=4, angle=25, length_side=200, _color=color_figure)
+draw_polygon(start_point=point_2, corners=5, angle=25, length_side=200, _color=color_figure)
+draw_polygon(start_point=point_3, corners=7, angle=25, length_side=150, _color=color_figure)
+draw_polygon(start_point=point_4, corners=5, _color=color_figure)
 
 
 sd.pause()
