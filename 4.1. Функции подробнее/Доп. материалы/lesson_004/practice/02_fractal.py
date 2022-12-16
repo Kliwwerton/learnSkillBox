@@ -2,11 +2,11 @@
 
 import simple_draw as sd
 
-sd.resolution = (1200, 900)
+sd.resolution = (1200, 800)
 
 # нарисовать ветку дерева из точки (300, 5) вертикально вверх длиной 100
 
-point_0 = sd.get_point(600, 450)
+point_0 = sd.get_point(600, 400)
 
 
 # сделать функцию рисования ветки из заданной точки,
@@ -54,22 +54,24 @@ def branch(point, angle, length, _delta):
     branch(point=next_point, angle=next_angle, length=next_length, _delta=_delta)
 
 
+length_vector = 90
+
 for delta in range(0, 51, 5):
-    branch(point=point_0, angle=90, length=100, _delta=delta)
+    branch(point=point_0, angle=90, length=length_vector, _delta=delta)
 for delta in range(-50, 1, 5):
-    branch(point=point_0, angle=90, length=100, _delta=delta)
+    branch(point=point_0, angle=90, length=length_vector, _delta=delta)
 for delta in range(0, 51, 5):
-    branch(point=point_0, angle=270, length=100, _delta=delta)
+    branch(point=point_0, angle=270, length=length_vector, _delta=delta)
 for delta in range(-50, 1, 5):
-    branch(point=point_0, angle=360, length=100, _delta=delta)
+    branch(point=point_0, angle=360, length=length_vector, _delta=delta)
 for delta in range(-50, 1, 5):
-    branch(point=point_0, angle=270, length=100, _delta=delta)
+    branch(point=point_0, angle=270, length=length_vector, _delta=delta)
 for delta in range(0, 51, 5):
-    branch(point=point_0, angle=360, length=100, _delta=delta)
+    branch(point=point_0, angle=360, length=length_vector, _delta=delta)
 for delta in range(0, 51, 5):
-    branch(point=point_0, angle=180, length=100, _delta=delta)
+    branch(point=point_0, angle=180, length=length_vector, _delta=delta)
 for delta in range(-50, 1, 5):
-    branch(point=point_0, angle=180, length=100, _delta=delta)
+    branch(point=point_0, angle=180, length=length_vector, _delta=delta)
 
 
 sd.pause()

@@ -79,7 +79,7 @@ point_4 = sd.get_point(600, 350)
 draw_polygon(start_point=point_0, corners=3, angle=25, length_side=200, _color=color_figure)
 draw_polygon(start_point=point_1, corners=4, angle=25, length_side=200, _color=color_figure)
 draw_polygon(start_point=point_2, corners=5, angle=25, length_side=200, _color=color_figure)
-draw_polygon(start_point=point_3, corners=7, angle=25, length_side=150, _color=color_figure)
+draw_polygon(start_point=point_3, corners=6, angle=25, length_side=150, _color=color_figure)
 draw_polygon(start_point=point_4, corners=5, _color=color_figure)
 
 

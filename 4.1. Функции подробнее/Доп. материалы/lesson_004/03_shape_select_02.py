@@ -56,6 +56,7 @@ while not isinstance(custom_color, int):
             custom_color = None
         elif 0 <= custom_color <= 8:
             color = COLORS[custom_color]
+            print('Вы выбрали цвет, теперь выберите фигуру.')
         elif custom_color > 8:
             print('Вы ввели слишком большое значение! Попробуйте снова.')
             custom_color = None
