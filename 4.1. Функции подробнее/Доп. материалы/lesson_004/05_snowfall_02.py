@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import random
-
+import random as rd
 import simple_draw as sd
 
 sd.resolution = (1200, 800)
@@ -11,7 +10,7 @@ sd.background_color = sd.COLOR_PURPLE
 # - нарисовать падение этих N снежинок
 # - создать список рандомных длин лучей снежинок (от 10 до 100) и пусть все снежинки будут разные
 
-N = 15
+N = 20
 
 # Пригодятся функции
 # sd.get_point()
@@ -23,27 +22,41 @@ N = 15
 initial_coordinates = {}
 
 for i in range(N):
-    x = random.randint(50, 1150)
-    y = random.randint(400, 750)
-    length_of_branch = random.randint(20, 60)
+    x = rd.randint(50, 1150)
+    y = rd.randint(400, 750)
+    length_of_branch = rd.randint(20, 60)
     coordinates = [x, y, length_of_branch]
     initial_coordinates[i] = coordinates
 
+second_coordinates = initial_coordinates.copy()
 
 while True:
-    sd.clear_screen()
+    sd.start_drawing()
 
     for i in initial_coordinates:
-        # x = initial_coordinates[i][0]
-        # y = initial_coordinates[i][1]
         point = sd.get_point(initial_coordinates[i][0], initial_coordinates[i][1])
         sd.snowflake(center=point, length=initial_coordinates[i][2])
-        initial_coordinates[i][0] += random.randint(-10, 10)
-        initial_coordinates[i][1] -= random.randint(2, 20)
 
+    # second_coordinates = initial_coordinates.copy()
+    sd.finish_drawing()
 
+    sd.sleep(0.1)
+    sd.start_drawing()
+    # for j in initial_coordinates:
+    #     if initial_coordinates[j][1] > initial_coordinates[j][2]:
+    #         point = sd.get_point(initial_coordinates[j][0], initial_coordinates[j][1])
+    #         sd.snowflake(center=point, length=initial_coordinates[j][2], color=sd.background_color)
+    for i in initial_coordinates:
+        if initial_coordinates[i][1] <= initial_coordinates[i][2]:
+            initial_coordinates[i][1] = 800 - initial_coordinates[i][2]
+            initial_coordinates[i][0] = rd.randint(50, 1150)
+        else:
+            point = sd.get_point(initial_coordinates[i][0], initial_coordinates[i][1])
+            sd.snowflake(center=point, length=initial_coordinates[i][2], color=sd.background_color)
+            initial_coordinates[i][0] += rd.randint(-10, 10)
+            initial_coordinates[i][1] -= rd.randint(2, 20)
 
-    sd.sleep(0.2)
+    sd.finish_drawing()
 
     if sd.user_want_exit():
         break
@@ -84,6 +97,3 @@ while True:
 # - сделать сугроб внизу экрана - если снежинка долетает до низа, оставлять её там,
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
-
-
-# sd.pause()

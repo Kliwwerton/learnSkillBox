@@ -65,7 +65,7 @@ def draw_branches(start_point, length_branch=120, corner=90, width=10, color=sd.
     if width > 2:
         width -= 2
     if length_branch < 7:
-        color = sd.COLOR_GREEN
+        color = sd.COLOR_DARK_GREEN
     if length_branch > 5:
         draw_branches(start_point=branch, length_branch=length_branch, corner=alpha, width=width, color=color)
         draw_branches(start_point=branch, length_branch=length_branch, corner=betta, width=width, color=color)
