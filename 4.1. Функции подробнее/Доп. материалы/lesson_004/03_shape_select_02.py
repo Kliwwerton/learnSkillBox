@@ -27,18 +27,18 @@ COLORS = (
 
 def draw_polygon(start_point=sd.get_point(sd.resolution[0]/2, sd.resolution[1]/2),
                  corners=4,
-                 angle=0, length_side=100, _color=sd.COLOR_WHITE, width=2):
+                 angle=0, length_side=100, _color=sd.COLOR_WHITE, width=4):
     alpha = 360 / corners
     betta = start_point
     for i in range(corners - 1):
-        start_point = sd.vector(start=start_point, angle=angle, length=length_side, color=color, width=width)
+        start_point = sd.vector(start=start_point, angle=angle, length=length_side, color=_color, width=width)
         angle += alpha
-    sd.line(start_point=start_point, end_point=betta, color=color, width=width)
+    sd.line(start_point=start_point, end_point=betta, color=_color, width=width)
 
 
 custom_color = None
 
-while not isinstance(custom_color, int):
+while not isinstance(custom_color, tuple):
     try:
         custom_color = int(input('''Возможные цвета:
         0 - white
@@ -50,18 +50,22 @@ while not isinstance(custom_color, int):
         6 - cyan
         7 - blue
         8 - purple
+        9 - Случайный цвет!!!
         Выберите цвет фигуры: '''))
         if custom_color < 0:
             print('Вы ввели слишком маленькое значение, попробуйте снова!')
             custom_color = None
         elif 0 <= custom_color <= 8:
-            color = COLORS[custom_color]
+            custom_color = COLORS[custom_color]
             print('Вы выбрали цвет, теперь выберите фигуру.')
-        elif custom_color > 8:
+        elif custom_color == 9:
+            custom_color = sd.random_color()
+            print('Вы выбрали Случайное значение, я сам выберу цвет!')
+        elif custom_color > 9:
             print('Вы ввели слишком большое значение! Попробуйте снова.')
             custom_color = None
     except ValueError:
-        print("Вы ввели не число, пожалуйста введите число от 0 до 8")
+        print("Вы ввели не число, пожалуйста введите число от 0 до 9")
 
 length_side_figure = 200
 number_of_corners = None
@@ -107,7 +111,6 @@ while not isinstance(custom_figure, int):
         print("Вы ввели не число, пожалуйста введите число от 0 до 4")
 
 
-color_figure = COLORS[custom_color]
 point_0 = sd.get_point(600, 200)
 
 # point_1 = sd.get_point(900, 100)
@@ -116,7 +119,7 @@ point_0 = sd.get_point(600, 200)
 # point_4 = sd.get_point(600, 350)
 
 draw_polygon(start_point=point_0, corners=number_of_corners, angle=25,
-             length_side=length_side_figure, _color=color_figure)
+             length_side=length_side_figure, _color=custom_color)
 # draw_polygon(start_point=point_1, corners=4, angle=25, length_side=200, _color=color_figure)
 # draw_polygon(start_point=point_2, corners=5, angle=25, length_side=200, _color=color_figure)
 # draw_polygon(start_point=point_3, corners=7, angle=25, length_side=150, _color=color_figure)
