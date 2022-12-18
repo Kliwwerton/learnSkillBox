@@ -29,18 +29,18 @@ def initial_snowfall(quantity):
     return dictionary_of_new_snowflake
 
 
-def change_coordinates_of_an_existing_snowflake(list_of_coordinates):
+def change_coordinates_of_an_existing_snowflake(list_of_parameters):
 
     """
     Принимает словарь координат снежинок, проверяет, достигли ли они нижнего края экрана.
     Если снежинка достигла нижней границы экрана, создаёт новую в верхней части экрана.
     :return: словарь снежинок.
     """
-    list_of_coordinates[0] = rd.randint(50, 1150)
-    list_of_coordinates[2] = rd.randint(10, 60)
-    list_of_coordinates[1] = 800 - list_of_coordinates[2]
+    list_of_parameters[0] = rd.randint(50, 1150)
+    list_of_parameters[2] = rd.randint(10, 60)
+    list_of_parameters[1] = 800 - list_of_parameters[2]
 
-    return list_of_coordinates
+    return list_of_parameters
 
 
 def drawing_snowflake(list_of_coordinates, color=sd.COLOR_WHITE):
