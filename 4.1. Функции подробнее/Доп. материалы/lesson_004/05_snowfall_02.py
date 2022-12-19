@@ -10,7 +10,7 @@ sd.background_color = sd.COLOR_DARK_CYAN
 # - нарисовать падение этих N снежинок
 # - создать список рандомных длин лучей снежинок (от 10 до 100) и пусть все снежинки будут разные
 
-N = 25
+N = 20
 
 
 def initial_snowfall(quantity):
@@ -65,14 +65,6 @@ while True:
     sd.start_drawing()
 
     for j in initial_coordinates:
-        drawing_snowflake(initial_coordinates[j])
-
-    sd.finish_drawing()
-
-    sd.sleep(0.1)
-    sd.start_drawing()
-
-    for j in initial_coordinates:
         if initial_coordinates[j][1] <= initial_coordinates[j][2]:
             initial_coordinates[j] = change_coordinates_of_an_existing_snowflake(initial_coordinates[j])
         else:
@@ -81,8 +73,11 @@ while True:
             initial_coordinates[j][0] += rd.randint(-10, 10)
             initial_coordinates[j][1] -= rd.randint(2, 20)
 
-    sd.finish_drawing()
+    for j in initial_coordinates:
+        drawing_snowflake(initial_coordinates[j])
 
+    sd.finish_drawing()
+    sd.sleep(0.1)
     if sd.user_want_exit():
         break
 
