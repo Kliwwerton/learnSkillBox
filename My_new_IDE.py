@@ -6,7 +6,15 @@
 # window.mainloop()
 
 from kivy.app import App
+from kivy.uix.label import Label
 
-my_window = App()
+
+class My_windowApp(App):
+    def build(self):
+        label = Label(text='Hello kivy')
+        return label
+
+
+my_window = My_windowApp()
 
 my_window.run()

@@ -54,7 +54,7 @@ def draw_branches_2(start_point, length_branch=150, corner=90, width=10):
 # Возможный результат решения см lesson_004/results/exercise_04_fractal_02.jpg
 
 
-def draw_branches(start_point, length_branch=120, corner=90, width=10, color=sd.COLOR_DARK_ORANGE):
+def draw_tree(start_point, length_branch=120, corner=90, width=10, color=sd.COLOR_DARK_ORANGE):
 
     """Draws a tree with random length of branch"""
 
@@ -67,8 +67,8 @@ def draw_branches(start_point, length_branch=120, corner=90, width=10, color=sd.
     if length_branch < 7:
         color = sd.COLOR_DARK_GREEN
     if length_branch > 5:
-        draw_branches(start_point=branch, length_branch=length_branch, corner=alpha, width=width, color=color)
-        draw_branches(start_point=branch, length_branch=length_branch, corner=betta, width=width, color=color)
+        draw_tree(start_point=branch, length_branch=length_branch, corner=alpha, width=width, color=color)
+        draw_tree(start_point=branch, length_branch=length_branch, corner=betta, width=width, color=color)
 
 
 # Пригодятся функции
@@ -77,6 +77,6 @@ def draw_branches(start_point, length_branch=120, corner=90, width=10, color=sd.
 if __name__ == '__main__':
     # draw_branch_1(start_point=point_0, length_branch=200)  # Draws a tree with two branches
     # draw_branches_2(start_point=point_0, length_branch=200)  # Draws a tree with the same length of branch
-    draw_branches(start_point=point_0,)  # Draws a tree with random length of branches
+    draw_tree(start_point=point_0, )  # Draws a tree with random length of branches
 
 sd.pause()

@@ -19,13 +19,28 @@
 # Приправить своей фантазией по вкусу (Коты? Коровы? Люди? Трактор? Что придумается)
 
 import simple_draw as sd
+from functions_for_painting import draw_earth
 from functions_for_painting import painting_rainbow
 from functions_for_painting import draw_the_sun
+from functions_for_painting import draw_the_tree
 
-sd.resolution = (1200, 800)
-sd.background_color = sd.COLOR_DARK_CYAN
+width_window = 1200
+height_window = 800
 
-painting_rainbow.painting_rainbow(y=-200, radius=1200, step=8)
-draw_the_sun.draw_the_sun(y=700, beam=100)
+sd.resolution = (width_window, height_window)
+sd.background_color = (102, 205, 170)
+
+height_earth = height_window/10
+draw_earth.draw_the_earth(width=width_window, length=height_earth)  # Рисует землю
+painting_rainbow.painting_rainbow(y=-200, radius=1200, step=8)  # Рисует радугу
+draw_the_sun.draw_the_sun(y=700, beam=100)  # Рисует солнце
+
+# Точки для отрисовки деревьев
+point_tree_1 = sd.get_point(x=width_window/3*2, y=height_earth)
+point_tree_2 = sd.get_point(x=width_window/5*4, y=height_earth+25)
+point_tree_3 = sd.get_point(x=width_window-100, y=height_earth+35)
+draw_the_tree.draw_tree(start_point=point_tree_1, length_branch=80, width=6)
+draw_the_tree.draw_tree(start_point=point_tree_2, length_branch=45, width=4)
+draw_the_tree.draw_tree(start_point=point_tree_3, length_branch=40, width=4)
 
 sd.pause()
