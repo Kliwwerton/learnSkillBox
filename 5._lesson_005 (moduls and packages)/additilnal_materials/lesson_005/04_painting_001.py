@@ -19,12 +19,13 @@
 # Приправить своей фантазией по вкусу (Коты? Коровы? Люди? Трактор? Что придумается)
 
 import simple_draw as sd
-from functions_for_painting.painting_rainbow import painting_rainbow
+from functions_for_painting import painting_rainbow
+from functions_for_painting import draw_the_sun
 
 sd.resolution = (1200, 800)
 sd.background_color = sd.COLOR_DARK_CYAN
 
-painting_rainbow(y=-200, radius=1200, step=8)
-
+painting_rainbow.painting_rainbow(y=-200, radius=1200, step=8)
+draw_the_sun.draw_the_sun(y=700, beam=100)
 
 sd.pause()
