@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 def add_a_bun():
-    print('А теперь добавим булочку(a bun)')
+    print('Возьмём булочку (a bun)')
 
 
 def add_the_cutlet():

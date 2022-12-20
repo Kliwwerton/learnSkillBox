@@ -26,4 +26,3 @@ mb.add_a_tomato()
 mb.add_a_cheese()
 mb.add_a_bun()
 print('Всё, двойной чизбургер готов!')
-
