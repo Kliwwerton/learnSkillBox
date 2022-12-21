@@ -43,23 +43,52 @@ def draw_wall(start_point, quantity_bricks, width_wall, height_wall, color=sd.CO
     return height_wall+2
 
 
-def draw_the_roof(start_point, corner=30, length_side=150):
+def draw_the_roof(start_point, width_wall, height_wall, width=0):
 
-    """Рисует крышу дома"""
+    """Рисует треугольную крышу цветом color"""
 
-    side = sd.vector(start=start_point, angle=corner, length=length_side, width=2)
-    corner += 360 / 3
-    side_2 = sd.vector(start=side, angle=corner, length=length_side, width=2)
-    corner += 360 / 3
-    sd.vector(start=side_2, angle=corner, length=length_side, width=2)
+    color = sd.COLOR_DARK_ORANGE
+    shift_roof = width_wall * 0.2
+    width_roof = width_wall + shift_roof * 2
+    height_roof = height_wall * 0.3 + width_wall * 0.1
+    points = []
+    # Получаем точки для рисования многоугольника
+    point_a = start_point
+    point_b = sd.get_point(start_point.x + width_roof, start_point.y)
+    point_c = sd.get_point(start_point.x + width_roof / 2, start_point.y + height_roof)
+    # Добавление координат вершин в список
+    points.append(point_a)
+    points.append(point_b)
+    points.append(point_c)
+
+    sd.polygon(points, color=color, width=width)
+
+    point_window = sd.get_point(point_c.x, start_point.y + height_roof / 2)
+    sd.circle(center_position=point_window, radius=height_roof / 3, color=sd.COLOR_WHITE, width=0)
 
 
-def draw_the_house(start_point, quantity_bricks=15, width_wall=300, height_wall=300):
+def draw_the_house(start_point, quantity_bricks=15, width_wall=400, height_wall=300):
 
     """Рисует весь дом целиком из заданной точки"""
 
     height_wall = draw_wall(start_point=start_point, quantity_bricks=quantity_bricks,
                             width_wall=width_wall, height_wall=height_wall)
 
-    start_point_for_roof = sd.get_point(start_point.x - width_wall//3, start_point.y + height_wall)
-    draw_the_roof(start_point=start_point_for_roof, corner=0, length_side=width_wall + (width_wall//3) * 2)
+    shift_the_roof = width_wall * 0.2
+
+    start_point_for_roof = sd.get_point(start_point.x - shift_the_roof, start_point.y + height_wall)
+    draw_the_roof(start_point=start_point_for_roof, width_wall=width_wall, height_wall=height_wall)
+
+
+def main():
+    sd.resolution = (1600, 800)
+    sd.background_color = sd.COLOR_BLUE
+
+    point_start = sd.get_point(400, 1600 / 10)
+    draw_the_house(start_point=point_start)
+
+    sd.pause()
+
+
+if __name__ == '__main__':
+    main()
