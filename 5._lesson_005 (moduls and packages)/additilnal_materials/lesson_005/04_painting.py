@@ -16,7 +16,7 @@
 #  - справа от дома - дерево (можно несколько)
 #  - справа в небе - радуга, слева - солнце (весна же!)
 # пример см. lesson_005/results/04_painting.jpg
-# Приправить своей фантазией по вкусу (коты? коровы? люди? трактор? что придумается)
+# Приправить своей фантазией по вкусу (Коты? Коровы? Люди? Трактор? Что придумается)
 
 import simple_draw as sd
 import draw_the_wall
@@ -42,7 +42,7 @@ def func_draw_the_cloud(x, y, x1, y1, color=sd.COLOR_WHITE):
     draw_the_cloud.draw_the_cloud(points_cloud, color)
 
 
-def draw_the_Earth(height, width):
+def draw_the_earth(height, width):
     """Рисует землю для расположения на ней домика и дерева."""
     sd.rectangle(left_bottom=sd.get_point(0, 0), right_top=sd.get_point(width, height), width=0, color=(47, 79, 79))
 
@@ -58,7 +58,7 @@ def main(_width_of_the_canvas):
 
     # Рисуем участок земли
     height_plot = 100
-    draw_the_Earth(height=height_plot, width=_width_of_the_canvas)
+    draw_the_earth(height=height_plot, width=_width_of_the_canvas)
 
     # Рисуем дом
     left_bottom = 300

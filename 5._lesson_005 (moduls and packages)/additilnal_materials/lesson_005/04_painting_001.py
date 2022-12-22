@@ -51,7 +51,7 @@ x_left_bottom_house = 400
 point_left_lower_corner_house = sd.get_point(x_left_bottom_house, height_earth)
 # Строим ДОМ
 x_shift_for_snowdrift = draw_the_house.draw_the_house(start_point=point_left_lower_corner_house,
-                                                      quantity_bricks=10,
+                                                      quantity_bricks=14,
                                                       width_wall=600,
                                                       height_wall=350)
 
@@ -59,5 +59,8 @@ x_shift_for_snowdrift = draw_the_house.draw_the_house(start_point=point_left_low
 start_point = sd.get_point(0, height_earth)
 end_point = sd.get_point(x_left_bottom_house - x_shift_for_snowdrift, height_earth)
 draw_snow.draw_snowdrift(start_point=start_point, end_point=end_point)
+
+# Рисуем АНИМАЦИЮ
+
 
 sd.pause()
