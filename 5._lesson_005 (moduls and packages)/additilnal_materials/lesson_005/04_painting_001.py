@@ -24,6 +24,7 @@ from functions_for_painting import painting_rainbow
 from functions_for_painting import draw_the_sun
 from functions_for_painting import draw_the_tree
 from functions_for_painting import draw_the_house
+from functions_for_painting import draw_snow
 
 width_window = 1600
 height_window = 800
@@ -33,7 +34,7 @@ sd.background_color = (102, 205, 170)
 
 height_earth = height_window / 10
 draw_earth.draw_the_earth(width=width_window, length=height_earth)  # Рисует землю
-painting_rainbow.painting_rainbow(y=-400, radius=width_window, step=8)  # Рисует радугу
+painting_rainbow.painting_rainbow(y=-600, radius=width_window, step=15)  # Рисует радугу
 draw_the_sun.draw_the_sun(y=700, beam=100)  # Рисует солнце
 
 # Точки для отрисовки деревьев
@@ -46,11 +47,17 @@ draw_the_tree.draw_tree(start_point=point_tree_2, length_branch=45, width=4)
 # draw_the_tree.draw_tree(start_point=point_tree_3, length_branch=40, width=4)
 
 # Нижняя левая точка для отрисовки дома
-point_left_lower_corner_house = sd.get_point(400, height_earth)
+x_left_bottom_house = 400
+point_left_lower_corner_house = sd.get_point(x_left_bottom_house, height_earth)
 # Строим ДОМ
-draw_the_house.draw_the_house(start_point=point_left_lower_corner_house,
-                              quantity_bricks=15,
-                              width_wall=500,
-                              height_wall=300)
+x_shift_for_snowdrift = draw_the_house.draw_the_house(start_point=point_left_lower_corner_house,
+                                                      quantity_bricks=10,
+                                                      width_wall=600,
+                                                      height_wall=350)
+
+# Рисуем сугроб возле дома слева
+start_point = sd.get_point(0, height_earth)
+end_point = sd.get_point(x_left_bottom_house - x_shift_for_snowdrift, height_earth)
+draw_snow.draw_snowdrift(start_point=start_point, end_point=end_point)
 
 sd.pause()
