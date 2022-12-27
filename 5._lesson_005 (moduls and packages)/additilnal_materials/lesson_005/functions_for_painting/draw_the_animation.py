@@ -12,6 +12,18 @@ def draw_the_sun(x=150, y=600, beam=100, corner_beam_sun=0, color=sd.COLOR_YELLO
         sd.vector(start=point, angle=i, length=beam, color=color, width=width)
 
 
+rainbow_colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN,
+                  sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE]
+
+
+def painting_rainbow_animation(_x=400, _y=-100, radius=1000, step=5):
+    center = sd.get_point(x=_x, y=_y)
+    rd.shuffle(rainbow_colors)
+    for j in rainbow_colors:
+        sd.circle(center_position=center, radius=radius, color=j, width=step)
+        radius -= step
+
+
 def initial_snowfall(quantity, min_point, max_point):
 
     """
@@ -50,34 +62,12 @@ def drawing_snowflake(list_of_coordinates, color=sd.COLOR_WHITE):
     sd.snowflake(center=point_of_snowflake, length=list_of_coordinates[2], color=color)
 
 
-# def draw_snowfall(initial_coordinates, min_point, max_point, height_earth):
-#     while True:
-#         sd.start_drawing()
-#
-#         for j in initial_coordinates:
-#             if initial_coordinates[j][1] <= initial_coordinates[j][2] + height_earth:
-#                 initial_coordinates[j] = change_coordinates_of_an_existing_snowflake(initial_coordinates[j],
-#                                                                                      min_point, max_point)
-#             else:
-#                 drawing_snowflake(initial_coordinates[j], color=sd.background_color)
-#
-#                 initial_coordinates[j][0] += rd.randint(-10, 10)
-#                 initial_coordinates[j][1] -= rd.randint(2, 10)
-#
-#         for j in initial_coordinates:
-#             drawing_snowflake(initial_coordinates[j])
-#
-#         sd.finish_drawing()
-#         sd.sleep(0.1)
-#         if sd.user_want_exit():
-#             break
-
-
-def main(min_point, max_point, height_earth):
+def main(min_point, max_point, height_earth, radius_rainbow):
     n = 30  # количество снежинок
     corner_beam_sun = 0  # Угол отклонения лучей солнца
     initial_coordinates = initial_snowfall(quantity=n, min_point=min_point, max_point=max_point)
     step = 0
+    change_number = rd.randint(0, 10)
     while True:
         sd.start_drawing()
 
@@ -99,11 +89,15 @@ def main(min_point, max_point, height_earth):
         for j in initial_coordinates:
             drawing_snowflake(initial_coordinates[j])
 
+        if change_number == step:
+            painting_rainbow_animation(_y=-600, radius=radius_rainbow, step=15)
+
         if step > 10:
-            draw_the_sun(y=700, corner_beam_sun=corner_beam_sun - 15, color=sd.background_color, width=3)
+            draw_the_sun(y=700, corner_beam_sun=corner_beam_sun - 15, color=sd.background_color, width=6)
             draw_the_sun(y=700, corner_beam_sun=corner_beam_sun)
             corner_beam_sun += 15
             step = 0
+            change_number = rd.randint(0, 10)
             if corner_beam_sun > 360:
                 corner_beam_sun = 0
 
@@ -115,10 +109,12 @@ def main(min_point, max_point, height_earth):
 
 
 if __name__ == '__main__':
-    sd.resolution = (1200, 800)
+    width_window = 1600
+    height_window = 800
+    sd.resolution = (width_window, height_window)
     sd.background_color = sd.COLOR_DARK_CYAN
     point_1 = sd.get_point(0, 80)
     point_2 = sd.get_point(340, 570)
-    main(min_point=point_1, max_point=point_2, height_earth=80)
+    main(min_point=point_1, max_point=point_2, height_earth=80, radius_rainbow=width_window)
 
     sd.pause()

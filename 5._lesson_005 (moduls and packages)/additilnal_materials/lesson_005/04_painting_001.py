@@ -66,28 +66,11 @@ draw_snow.draw_snowdrift(start_point=start_point, end_point=end_point)
 
 # Рисуем АНИМАЦИЮ
 
-
-# def draw_around_sun(corner_beam):
-#     draw_the_sun.draw_the_sun(y=700, corner_beam_sun=corner_beam - 15, color=sd.background_color, width=6)
-#     draw_the_sun.draw_the_sun(y=700, corner_beam_sun=corner_beam)
-
-
 max_point = sd.get_point(end_point.x, height_window - (length_beam * 2 + 30))
-draw_the_animation.main(min_point=start_point, max_point=max_point, height_earth=height_earth)
+draw_the_animation.main(min_point=start_point,
+                        max_point=max_point,
+                        height_earth=height_earth,
+                        radius_rainbow=width_window)
 
-
-# corner_beam_sun = 0
-# while True:
-#     sd.start_drawing()
-#     draw_around_sun(corner_beam_sun)
-#     sd.finish_drawing()
-#     sd.sleep(0.4)
-#
-#     corner_beam_sun += 15
-#     if corner_beam_sun > 360:
-#         corner_beam_sun = 0
-#
-#     if sd.user_want_exit():
-#         break
 
 sd.pause()
