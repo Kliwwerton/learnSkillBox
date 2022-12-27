@@ -4,32 +4,40 @@ import random as rd
 import simple_draw as sd
 
 
-def initial_snowfall(quantity):
+def draw_the_sun(x=150, y=600, beam=100, corner_beam_sun=0, color=sd.COLOR_YELLOW, width=3):
+    point = sd.get_point(x=x, y=y)
+    sd.circle(center_position=point, color=color, width=0)
+
+    for i in range(corner_beam_sun, 360 + corner_beam_sun, 30):
+        sd.vector(start=point, angle=i, length=beam, color=color, width=width)
+
+
+def initial_snowfall(quantity, min_point, max_point):
 
     """
     Создаёт словарь списков координат и рандомной длины лучей новых снежинок.
     Принимает количество снежинок
     """
-    dictionary_of_new_snowflake = {}
+    dictionary_of_new_snowflakes = {}
     for k in range(quantity):
-        x = rd.randint(50, 1150)
-        y = rd.randint(400, 750)
-        length_of_branch = rd.randint(10, 30)
-        coordinates_of_new_snowfall = [x, y, length_of_branch]
-        dictionary_of_new_snowflake[k] = coordinates_of_new_snowfall
-    return dictionary_of_new_snowflake
+        length_of_branch = rd.randint(10, 20)
+        x = rd.randint(min_point.x + length_of_branch, max_point.x)
+        y = rd.randint(min_point.y + length_of_branch, max_point.y)
+        coordinates_of_new_snowflake = [x, y, length_of_branch]
+        dictionary_of_new_snowflakes[k] = coordinates_of_new_snowflake
+    return dictionary_of_new_snowflakes
 
 
-def change_coordinates_of_an_existing_snowflake(list_of_parameters):
+def change_coordinates_of_an_existing_snowflake(list_of_parameters, min_, max_):
 
     """
     Принимает словарь координат снежинок, проверяет, достигли ли они нижнего края экрана.
     Если снежинка достигла нижней границы экрана, создаёт новую в верхней части экрана.
-    :return: словарь снежинок.
+    :return: список новых координат и размера снежинки.
     """
-    list_of_parameters[0] = rd.randint(50, 1150)
-    list_of_parameters[2] = rd.randint(10, 60)
-    list_of_parameters[1] = 800 - list_of_parameters[2]
+    list_of_parameters[0] = rd.randint(min_.x, max_.x)
+    list_of_parameters[2] = rd.randint(10, 20)
+    list_of_parameters[1] = max_.y - list_of_parameters[2]
 
     return list_of_parameters
 
@@ -42,37 +50,75 @@ def drawing_snowflake(list_of_coordinates, color=sd.COLOR_WHITE):
     sd.snowflake(center=point_of_snowflake, length=list_of_coordinates[2], color=color)
 
 
-def draw_snowfall(initial_coordinates):
+# def draw_snowfall(initial_coordinates, min_point, max_point, height_earth):
+#     while True:
+#         sd.start_drawing()
+#
+#         for j in initial_coordinates:
+#             if initial_coordinates[j][1] <= initial_coordinates[j][2] + height_earth:
+#                 initial_coordinates[j] = change_coordinates_of_an_existing_snowflake(initial_coordinates[j],
+#                                                                                      min_point, max_point)
+#             else:
+#                 drawing_snowflake(initial_coordinates[j], color=sd.background_color)
+#
+#                 initial_coordinates[j][0] += rd.randint(-10, 10)
+#                 initial_coordinates[j][1] -= rd.randint(2, 10)
+#
+#         for j in initial_coordinates:
+#             drawing_snowflake(initial_coordinates[j])
+#
+#         sd.finish_drawing()
+#         sd.sleep(0.1)
+#         if sd.user_want_exit():
+#             break
+
+
+def main(min_point, max_point, height_earth):
+    n = 30  # количество снежинок
+    corner_beam_sun = 0  # Угол отклонения лучей солнца
+    initial_coordinates = initial_snowfall(quantity=n, min_point=min_point, max_point=max_point)
+    step = 0
     while True:
         sd.start_drawing()
 
         for j in initial_coordinates:
-            if initial_coordinates[j][1] <= initial_coordinates[j][2]:
-                initial_coordinates[j] = change_coordinates_of_an_existing_snowflake(initial_coordinates[j])
+            if initial_coordinates[j][1] <= initial_coordinates[j][2] + height_earth:
+                initial_coordinates[j] = change_coordinates_of_an_existing_snowflake(initial_coordinates[j],
+                                                                                     min_point, max_point)
             else:
                 drawing_snowflake(initial_coordinates[j], color=sd.background_color)
 
                 initial_coordinates[j][0] += rd.randint(-10, 10)
-                initial_coordinates[j][1] -= rd.randint(2, 20)
+                if initial_coordinates[j][0] > max_point.x:
+                    initial_coordinates[j][0] -= 10
+                elif initial_coordinates[j][0] < min_point.x:
+                    initial_coordinates[j][0] += 10
+
+                initial_coordinates[j][1] -= rd.randint(2, 10)
 
         for j in initial_coordinates:
             drawing_snowflake(initial_coordinates[j])
 
+        if step > 10:
+            draw_the_sun(y=700, corner_beam_sun=corner_beam_sun - 15, color=sd.background_color, width=3)
+            draw_the_sun(y=700, corner_beam_sun=corner_beam_sun)
+            corner_beam_sun += 15
+            step = 0
+            if corner_beam_sun > 360:
+                corner_beam_sun = 0
+
         sd.finish_drawing()
+        step += 1
         sd.sleep(0.1)
         if sd.user_want_exit():
             break
 
 
-def main():
-    n = 20  # количество снежинок
-    initial_coordinates = initial_snowfall(n)
-    draw_snowfall(initial_coordinates)
-
-
 if __name__ == '__main__':
     sd.resolution = (1200, 800)
     sd.background_color = sd.COLOR_DARK_CYAN
-    main()
+    point_1 = sd.get_point(0, 80)
+    point_2 = sd.get_point(340, 570)
+    main(min_point=point_1, max_point=point_2, height_earth=80)
 
     sd.pause()

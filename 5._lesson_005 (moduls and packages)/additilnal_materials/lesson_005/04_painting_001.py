@@ -25,6 +25,7 @@ from functions_for_painting import draw_the_sun
 from functions_for_painting import draw_the_tree
 from functions_for_painting import draw_the_house
 from functions_for_painting import draw_snow
+from functions_for_painting import draw_the_animation
 
 width_window = 1600
 height_window = 800
@@ -35,7 +36,10 @@ sd.background_color = (102, 205, 170)
 height_earth = height_window / 10
 draw_earth.draw_the_earth(width=width_window, length=height_earth)  # Рисует землю
 painting_rainbow.painting_rainbow(y=-600, radius=width_window, step=15)  # Рисует радугу
-draw_the_sun.draw_the_sun(y=700, beam=100)  # Рисует солнце
+
+# Рисует солнце
+length_beam = 100
+draw_the_sun.draw_the_sun(y=700, beam=length_beam)
 
 # Точки для отрисовки деревьев
 point_tree_1 = sd.get_point(x=width_window * 0.8, y=height_earth)
@@ -63,23 +67,27 @@ draw_snow.draw_snowdrift(start_point=start_point, end_point=end_point)
 # Рисуем АНИМАЦИЮ
 
 
-def draw_round_sun(corner_beam):
-    draw_the_sun.draw_the_sun(y=700, corner_beam_sun=corner_beam - 15, color=sd.background_color, width=6)
-    draw_the_sun.draw_the_sun(y=700, corner_beam_sun=corner_beam)
+# def draw_around_sun(corner_beam):
+#     draw_the_sun.draw_the_sun(y=700, corner_beam_sun=corner_beam - 15, color=sd.background_color, width=6)
+#     draw_the_sun.draw_the_sun(y=700, corner_beam_sun=corner_beam)
 
 
-corner_beam_sun = 0
-while True:
-    sd.start_drawing()
-    draw_round_sun(corner_beam_sun)
-    sd.finish_drawing()
-    sd.sleep(0.4)
+max_point = sd.get_point(end_point.x, height_window - (length_beam * 2 + 30))
+draw_the_animation.main(min_point=start_point, max_point=max_point, height_earth=height_earth)
 
-    corner_beam_sun += 15
-    if corner_beam_sun > 360:
-        corner_beam_sun = 0
 
-    if sd.user_want_exit():
-        break
+# corner_beam_sun = 0
+# while True:
+#     sd.start_drawing()
+#     draw_around_sun(corner_beam_sun)
+#     sd.finish_drawing()
+#     sd.sleep(0.4)
+#
+#     corner_beam_sun += 15
+#     if corner_beam_sun > 360:
+#         corner_beam_sun = 0
+#
+#     if sd.user_want_exit():
+#         break
 
 sd.pause()
