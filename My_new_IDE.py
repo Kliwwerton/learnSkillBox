@@ -17,15 +17,21 @@ def on_press_button(instance):
 
 class My_windowApp(App):
     def build(self):
-        layout = BoxLayout(padding=10)
-        label = Label(text='Hello kivy', size_hint=(1, 1))
-        btn = Button(text='Press Me', background_color=[1, 0, 0, 1], )
+        layout = BoxLayout(padding=20)
+        label = Label(text='Привет Китти',
+                      size_hint=(0.2, 0.2),
+                      pos_hint={'center_x': 0.1, 'center_y': 0.5})
 
-        # layout.add_widget(btn)
+        btn = Button(text='Press Me',
+                     size_hint=(0.2, 1),
+                     pos_hint={'center_x': 0.5, 'center_y': 0.5},
+                     background_color=[1, 0, 0, 1])
+
         layout.add_widget(label)
+        layout.add_widget(btn)
         btn.bind(on_press=on_press_button)
 
-        return btn
+        return layout
 
 
 if __name__ == '__main__':
