@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Bools_and_Cows_engine
 # Игра «Быки и коровы»
 # https://goo.gl/Go2mb9
 #
@@ -45,8 +46,11 @@
 
 
 def main():
+    Bools_and_Cows_engine.rules_of_the_game()
     while True:
-        pass
+        numbers = Bools_and_Cows_engine.create_numbers()
+        print(numbers)
+        break
 
 
 if __name__ == '__main__':
