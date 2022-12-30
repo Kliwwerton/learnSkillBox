@@ -63,7 +63,7 @@ def drawing_snowflake(list_of_coordinates, color=sd.COLOR_WHITE):
 
 
 def main(min_point, max_point, height_earth, radius_rainbow):
-    n = 30  # количество снежинок
+    n = 40  # количество снежинок
     corner_beam_sun = 0  # Угол отклонения лучей солнца
     initial_coordinates = initial_snowfall(quantity=n, min_point=min_point, max_point=max_point)
     step = 0
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     sd.resolution = (width_window, height_window)
     sd.background_color = sd.COLOR_DARK_CYAN
     point_1 = sd.get_point(0, 80)
-    point_2 = sd.get_point(340, 570)
+    point_2 = sd.get_point(1040, 570)
     main(min_point=point_1, max_point=point_2, height_earth=80, radius_rainbow=width_window)
 
     sd.pause()
