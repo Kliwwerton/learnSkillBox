@@ -47,10 +47,15 @@ import Bools_and_Cows_engine
 
 def main():
     Bools_and_Cows_engine.rules_of_the_game()
-    while True:
+    numbers = True
+    while numbers:
         numbers = Bools_and_Cows_engine.create_numbers()
         print(numbers)
-        break
+
+        if Bools_and_Cows_engine.is_game():
+            continue
+        else:
+            break
 
 
 if __name__ == '__main__':
