@@ -27,21 +27,49 @@ def create_user_number():
 
     """ Create user number and return it """
 
-    pass
+    user_numbers = []
+    numbers = input('Введите четырёхзначное число: ')
+
+    for i in numbers:
+        user_numbers.append(int(i))
+        print(user_numbers)
+
+    return user_numbers
 
 
 def access_number_and_check(computer_number, user_number):
 
     """ Computer check the number and returns quantity Bools and Cows """
 
-    pass
+    bools_and_cows = {'bools': 0, 'cows': 0}
+    for i in range(len(user_number)):
+        if user_number[i] in computer_number:
+            if user_number[i] == computer_number[i]:
+                bools_and_cows['bools'] += 1
+            else:
+                bools_and_cows['cows'] += 1
+
+    return bools_and_cows
 
 
-def defines_is_win():
+def defines_is_win(dictionary, count):
 
     """ defines win or not """
 
-    pass
+    if dictionary['bools'] == 4:
+        print(colorama.Fore.RED + 'Быков: ',
+              dictionary['bools'], 'Коров: ',
+              dictionary['cows'], '\n'
+              'Поздравляю!!!',
+              colorama.Style.RESET_ALL)
+        return True
+    else:
+        if count != 0:
+            print(colorama.Fore.GREEN + 'Быков: ',
+                  dictionary['bools'], 'Коров: ',
+                  dictionary['cows'],
+                  colorama.Style.RESET_ALL)
+            return True
 
 
 def rules_of_the_game():
@@ -60,14 +88,16 @@ def rules_of_the_game():
 
 def is_game():
     word = 'None'
-    while word.lower() not in ('да', 'yes', 'нет', 'no'):
+    while word.lower() not in ('да', 'yes', 'нет', 'no', 'lf', 'ytn'):
         word = input('Хотите продолжить игру? ("Да" или "Нет"): ')
         if word.isalpha():
+            if word.lower() not in ('да', 'yes', 'нет', 'no', 'lf', 'ytn'):
+                print('Вы ввели неверное значение!')
             continue
         else:
             print('Вы ввели неверное значение, выберите из предложенных')
 
-    if word.title() in ('Да', 'Yes'):
+    if word.title() in ('Да', 'Yes', 'Lf'):
         return True
     else:
         return False

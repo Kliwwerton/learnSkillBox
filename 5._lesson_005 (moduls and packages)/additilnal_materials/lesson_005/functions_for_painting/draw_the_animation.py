@@ -103,8 +103,8 @@ def main(min_point, max_point, height_earth, radius_rainbow):
 
         sd.finish_drawing()
         step += 1
-        sd.sleep(0.1)
-        if sd.user_want_exit():
+        # sd.sleep(0.1)
+        if sd.user_want_exit(sleep_time=0.1):
             break
 
 
