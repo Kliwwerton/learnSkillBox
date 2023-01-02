@@ -18,8 +18,6 @@ def create_numbers():
             if number not in numbers:
                 numbers.append(number)
 
-        # print(numbers)
-
     return numbers
 
 
@@ -28,13 +26,29 @@ def create_user_number():
     """ Create user number and return it """
 
     user_numbers = []
-    numbers = input('Введите четырёхзначное число: ')
+    while True:
+        numbers = input('Введите четырёхзначное число: ')
+        if not numbers.isdigit():
+            if numbers.lower() in ('stop', 'exit'):
+                break
+            else:
+                print('Вы ввели неверное значение, пожалуйста, попробуйте с начала!')
+        elif numbers.isdigit() and len(numbers) > 4:
+            print('Вы ввели более 4 чисел. Число должно состоять из четырёх цифр!')
+        elif numbers.isdigit() and len(numbers) < 4:
+            print('Вы ввели менее четырёх чисел. Число должно состоять из четырёх цифр!')
+        elif numbers.isdigit() and int(numbers[0]) == 0:
+            print('Вы ввели число, которое начинается с цифры "0", это недопустимо. Попробуйте с начала.'),
+        else:
+            break
 
-    for i in numbers:
-        user_numbers.append(int(i))
-        print(user_numbers)
-
-    return user_numbers
+    if numbers.lower() in ('stop', 'exit'):
+        return numbers
+    else:
+        for i in numbers:
+            user_numbers.append(int(i))
+        # print(user_numbers)
+        return user_numbers
 
 
 def access_number_and_check(computer_number, user_number):
@@ -58,18 +72,17 @@ def defines_is_win(dictionary, count):
 
     if dictionary['bools'] == 4:
         print(colorama.Fore.RED + 'Быков: ',
-              dictionary['bools'], 'Коров: ',
-              dictionary['cows'], '\n'
-              'Поздравляю!!!',
+              dictionary['bools'], '\n'
+              'Поздравляю!!! ВЫ ВЫИГРАЛИ с ', count, 'ходов.',
               colorama.Style.RESET_ALL)
         return True
     else:
-        if count != 0:
-            print(colorama.Fore.GREEN + 'Быков: ',
-                  dictionary['bools'], 'Коров: ',
-                  dictionary['cows'],
-                  colorama.Style.RESET_ALL)
-            return True
+
+        print(colorama.Fore.GREEN + 'Быков: ',
+              dictionary['bools'], 'Коров: ',
+              dictionary['cows'],
+              colorama.Style.RESET_ALL)
+        return False
 
 
 def rules_of_the_game():
@@ -83,6 +96,7 @@ def rules_of_the_game():
           'то - это "Корова", если названное число совпадает с загаданным и находится на том месте где и загадано, \n'
           'то - это "Бык".\n'
           'Игра заканчивается когда все четыре "Быка" найдены.\n'
+                              'Если хотите выйти из игры, наберите команду "stop" или "exit".'
           'УДАЧИ!!!', colorama.Fore.RESET)
 
 
@@ -100,6 +114,7 @@ def is_game():
     if word.title() in ('Да', 'Yes', 'Lf'):
         return True
     else:
+        print('Ну как хотите, игра то интересная!')
         return False
 
 

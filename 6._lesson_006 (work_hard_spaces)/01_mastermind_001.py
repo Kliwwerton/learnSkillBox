@@ -47,19 +47,29 @@ import Bools_and_Cows_engine
 
 def main():
     Bools_and_Cows_engine.rules_of_the_game()
-    numbers = True
-    while numbers:
+    while True:
         numbers = Bools_and_Cows_engine.create_numbers()
-        print(numbers)
-        bools_and_cows = {'bools': 0, 'cows': 0}
-        count = 0
-        while not Bools_and_Cows_engine.defines_is_win(bools_and_cows, count):
+        # print(numbers)
+        count = 1
+        while True:
             user_numbers = Bools_and_Cows_engine.create_user_number()
-            bools_and_cows = Bools_and_Cows_engine.access_number_and_check(computer_number=numbers,
-                                                                           user_number=user_numbers)
+            if isinstance(user_numbers, str):
+                count = 0
+                break
+            elif isinstance(user_numbers, list):
+                bools_and_cows = Bools_and_Cows_engine.access_number_and_check(computer_number=numbers,
+                                                                               user_number=user_numbers)
+            else:
+                print('Что за херня!!! ИГРА ОКОНЧЕНА!!!')
+                count = 0
+                break
+            if Bools_and_Cows_engine.defines_is_win(bools_and_cows, count=count):
+                break
             count += 1
 
-        if Bools_and_Cows_engine.is_game():
+        if count == 0:
+            break
+        elif Bools_and_Cows_engine.is_game():
             continue
         else:
             break
