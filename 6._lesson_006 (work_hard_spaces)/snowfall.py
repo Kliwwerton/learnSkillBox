@@ -3,7 +3,7 @@
 import simple_draw as sd
 import random as rd
 
-sd.resolution = (1200, 800)
+# sd.resolution = (1200, 800)
 
 
 def initial_snowfall(quantity, min_point, max_point):
@@ -51,6 +51,33 @@ def shift_snowflakes(dict_of_coordinates):
     return dict_of_coordinates
 
 
+def check_coordinates(dict_of_snowflakes):
+
+    """ Проверяет координаты снежинок, если снежинка падает ниже нижнего края экрана, добавляет её в новый список. """
+
+    fall_list = []
+    for i in dict_of_snowflakes:
+        if dict_of_snowflakes[i][1] < 20:
+            fall_list.append(i)
+
+    return fall_list
+
+
+def create_snowflake(dict_of_snowflakes, list_of_snowflakes):
+
+    """ Создаёт снежинку в заданной точке.
+    Принимает словарь с существующими снежинками и список ключей, удалённых списков из этого словаря.
+     Взамен создаёт новую снежинку на месте удалённой. """
+
+    for i in list_of_snowflakes:
+        length_of_branch = rd.randint(10, 20)
+        x = rd.randint(20, sd.resolution[0]-20)
+        y = sd.resolution[1]-20
+        dict_of_snowflakes[i] = [x, y, length_of_branch]
+
+    return dict_of_snowflakes
+
+
 def main():
     n = 500  # количество снежинок
     min_point = sd.get_point(20, 20)
@@ -59,9 +86,11 @@ def main():
 
     while True:
         sd.start_drawing()
+
         drawing_snowflake(snowflakes, color=sd.background_color)
         shift_snowflakes(dict_of_coordinates=snowflakes)
         drawing_snowflake(dict_of_coordinates=snowflakes)
+
         sd.finish_drawing()
         if sd.user_want_exit(sleep_time=0.01):
             break
