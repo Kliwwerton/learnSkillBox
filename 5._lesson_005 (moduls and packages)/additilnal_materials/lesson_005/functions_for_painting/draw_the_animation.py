@@ -45,7 +45,7 @@ def change_coordinates_of_an_existing_snowflake(list_of_parameters, min_, max_):
     """
     Принимает словарь координат снежинок, проверяет, достигли ли они нижнего края экрана.
     Если снежинка достигла нижней границы экрана, создаёт новую в верхней части экрана.
-    :return: список новых координат и размера снежинки.
+    :return: Список новых координат и размера снежинки.
     """
     list_of_parameters[0] = rd.randint(min_.x, max_.x)
     list_of_parameters[2] = rd.randint(10, 20)

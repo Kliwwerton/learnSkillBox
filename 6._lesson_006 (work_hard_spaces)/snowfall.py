@@ -33,15 +33,37 @@ def drawing_snowflake(dict_of_coordinates, color=sd.COLOR_WHITE):
         sd.snowflake(center=point_of_snowflake, length=dict_of_coordinates[i][2], color=color)
 
 
+def shift_snowflakes(dict_of_coordinates):
+
+    """ Сдвигает снежинки вниз с рандомной скоростью,
+    также сдвигая немного их и по горизонтали, создавая эффект завихрения.
+    Принимает словарь со списками информации о снежинках."""
+
+    for i in dict_of_coordinates:
+        dict_of_coordinates[i][0] += rd.randint(-10, 10)
+        if dict_of_coordinates[i][0] > sd.resolution[0]:
+            dict_of_coordinates[i][0] -= 10
+        elif dict_of_coordinates[i][0] < 0:
+            dict_of_coordinates[i][0] += 10
+
+        dict_of_coordinates[i][1] -= rd.randint(2, 10)
+
+    return dict_of_coordinates
+
+
 def main():
-    n = 50  # количество снежинок
+    n = 500  # количество снежинок
     min_point = sd.get_point(20, 20)
     max_point = sd.get_point(sd.resolution[0]-20, sd.resolution[1]-20)
     snowflakes = initial_snowfall(quantity=n, min_point=min_point, max_point=max_point)
 
     while True:
-
-        if sd.user_want_exit(sleep_time=0.1):
+        sd.start_drawing()
+        drawing_snowflake(snowflakes, color=sd.background_color)
+        shift_snowflakes(dict_of_coordinates=snowflakes)
+        drawing_snowflake(dict_of_coordinates=snowflakes)
+        sd.finish_drawing()
+        if sd.user_want_exit(sleep_time=0.01):
             break
 
 

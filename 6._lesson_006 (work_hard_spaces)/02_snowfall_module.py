@@ -15,18 +15,24 @@ import snowfall
 # обращаясь ТОЛЬКО к функциям модуля snowfall
 
 # создать_снежинки(N)
-n = 50
+n = 100
 snowflakes = snowfall.initial_snowfall(quantity=n,
                                        min_point=sd.get_point(20, 20),
                                        max_point=sd.get_point(sd.resolution[0]-20, sd.resolution[1]-20))
 while True:
-    snowfall.drawing_snowflake(dict_of_coordinates=snowflakes)
+    sd.start_drawing()
+    snowfall.drawing_snowflake(dict_of_coordinates=snowflakes, color=sd.background_color)
     #  нарисовать_снежинки_цветом(color=sd.background_color)
+    snowfall.shift_snowflakes(dict_of_coordinates=snowflakes)
     #  сдвинуть_снежинки()
+    snowfall.drawing_snowflake(dict_of_coordinates=snowflakes, color=sd.COLOR_DARK_GREEN)
     #  нарисовать_снежинки_цветом(color)
+
     #  если есть номера_достигших_низа_экрана() то
     #       удалить_снежинки(номера)
     #       создать_снежинки(count)
+
+    sd.finish_drawing()
 
     if sd.user_want_exit(sleep_time=0.1):
         break
