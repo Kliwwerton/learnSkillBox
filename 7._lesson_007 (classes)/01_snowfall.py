@@ -5,6 +5,7 @@ import simple_draw as sd
 
 sd.resolution = (1200, 800)
 
+
 # Шаг 1: Реализовать падение снежинки через класс. Внести в методы:
 #  - создание снежинки с нужными параметрами
 #  - отработку изменений координат
@@ -12,12 +13,11 @@ sd.resolution = (1200, 800)
 
 
 class Snowflake:
-
     """ Класс Снежинки """
 
     def __init__(self,
-                 x=random.randint(20, sd.resolution[0]-20),
-                 y=sd.resolution[1]-20,
+                 x=random.randint(20, sd.resolution[0] - 20),
+                 y=sd.resolution[1] - 20,
                  length=100,
                  color=sd.COLOR_WHITE):
         self.x = x
@@ -44,30 +44,50 @@ class Snowflake:
         sd.snowflake(center=self.point, length=self.length, color=sd.background_color)
 
 
-flake = Snowflake(length=30)
+def get_flakes(count=1):
+    list_snowflakes = []
+    for i in range(count):
+        snowflake = Snowflake(length=random.randint(10, 30))
+        list_snowflakes.append(snowflake)
+    return list_snowflakes
+
+
+def get_fallen_flakes():
+    pass
+
+
+def append_flakes():
+    pass
+
+
+# flake = Snowflake(length=30)
+#
+# while True:
+#     flake.clear_previous_picture()
+#     flake.move()
+#     flake.draw()
+#     if not flake.can_fall():
+#         break
+#
+#     if sd.user_want_exit(sleep_time=0.1):
+#         break
+
+n = 30
+
+# шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
+
+flakes = get_flakes(count=n)  # создать список снежинок
 
 while True:
-    flake.clear_previous_picture()
-    flake.move()
-    flake.draw()
-    if not flake.can_fall():
-        break
+    for flake in flakes:
+        flake.clear_previous_picture()
+        flake.move()
+        flake.draw()
+    fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
+    if fallen_flakes:
+        append_flakes(count=fallen_flakes)  # добавить еще сверху
 
     if sd.user_want_exit(sleep_time=0.1):
         break
-
-# шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
-# flakes = get_flakes(count=N)  # создать список снежинок
-# while True:
-#     for flake in flakes:
-#         flake.clear_previous_picture()
-#         flake.move()
-#         flake.draw()
-#     fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
-#     if fallen_flakes:
-#         append_flakes(count=fallen_flakes)  # добавить еще сверху
-#     sd.sleep(0.1)
-#     if sd.user_want_exit():
-#         break
 
 sd.pause()
