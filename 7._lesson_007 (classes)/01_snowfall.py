@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import random
 
 import simple_draw as sd
+
+sd.resolution = (1200, 800)
 
 # Шаг 1: Реализовать падение снежинки через класс. Внести в методы:
 #  - создание снежинки с нужными параметрами
@@ -9,12 +12,36 @@ import simple_draw as sd
 
 
 class Snowflake:
-    pass
 
-    # TODO здесь ваш код
+    """ Класс Снежинки """
+
+    def __init__(self,
+                 x=random.randint(20, sd.resolution[0]-20),
+                 y=sd.resolution[1]-20,
+                 length=100,
+                 color=sd.COLOR_WHITE):
+        self.x = x
+        self.y = y
+        self.point = sd.get_point(x=self.x, y=self.y)
+        self.length = length
+        self.color = color
+
+    def draw(self):
+        sd.snowflake(center=self.point, length=self.length, color=self.color)
+
+    def move(self):
+        self.x += random.randint(-10, 10)
+        self.y -= random.randint(2, 10)
+        self.point = sd.get_point(self.x, self.y)
+
+    def can_fall(self):
+        return self.y >= self.length
+
+    def clear_previous_picture(self):
+        sd.snowflake(center=self.point, length=self.length, color=sd.background_color)
 
 
-flake = Snowflake()
+flake = Snowflake(length=30)
 
 while True:
     flake.clear_previous_picture()
@@ -22,8 +49,8 @@ while True:
     flake.draw()
     if not flake.can_fall():
         break
-    sd.sleep(0.1)
-    if sd.user_want_exit():
+
+    if sd.user_want_exit(sleep_time=0.1):
         break
 
 # шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
