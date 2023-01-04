@@ -27,14 +27,17 @@ class Snowflake:
         self.color = color
 
     def draw(self):
+        """Рисует снежинку на полотне"""
         sd.snowflake(center=self.point, length=self.length, color=self.color)
 
     def move(self):
+        """Сдвигает снежинку вниз по экрану"""
         self.x += random.randint(-10, 10)
         self.y -= random.randint(2, 10)
         self.point = sd.get_point(self.x, self.y)
 
     def can_fall(self):
+        """Проверяем, может ли снежинка продолжать падение"""
         return self.y >= self.length
 
     def clear_previous_picture(self):
