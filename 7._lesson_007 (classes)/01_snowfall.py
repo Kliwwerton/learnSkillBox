@@ -16,12 +16,10 @@ class Snowflake:
     """ Класс Снежинки """
 
     def __init__(self,
-                 x=random.randint(20, sd.resolution[0] - 20),
-                 y=sd.resolution[1] - 20,
                  length=100,
                  color=sd.COLOR_WHITE):
-        self.x = x
-        self.y = y
+        self.x = random.randint(20, sd.resolution[0] - 20)
+        self.y = sd.resolution[1] - 20
         self.point = sd.get_point(x=self.x, y=self.y)
         self.length = length
         self.color = color
@@ -33,6 +31,10 @@ class Snowflake:
     def move(self):
         """Сдвигает снежинку вниз по экрану"""
         self.x += random.randint(-10, 10)
+        if self.x > sd.resolution[0]-self.length:
+            self.x -= 10
+        elif self.x < self.length:
+            self.x += 10
         self.y -= random.randint(2, 10)
         self.point = sd.get_point(self.x, self.y)
 
@@ -52,12 +54,20 @@ def get_flakes(count=1):
     return list_snowflakes
 
 
-def get_fallen_flakes():
-    pass
+def get_fallen_flakes(_flakes):
+    list_fallen_flakes = []
+    for i in _flakes:
+        if not i.can_fall():
+            list_fallen_flakes.append(i)
+
+    return list_fallen_flakes
 
 
-def append_flakes():
-    pass
+def append_flakes(count):
+    for i in count:
+        flakes.remove(i)
+        flakes_2 = get_flakes()
+        flakes.extend(flakes_2)
 
 
 # flake = Snowflake(length=30)
@@ -79,14 +89,17 @@ n = 30
 flakes = get_flakes(count=n)  # создать список снежинок
 
 while True:
+    sd.start_drawing()
+
     for flake in flakes:
         flake.clear_previous_picture()
         flake.move()
         flake.draw()
-    fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
+    fallen_flakes = get_fallen_flakes(flakes)  # подчитать сколько снежинок уже упало
     if fallen_flakes:
         append_flakes(count=fallen_flakes)  # добавить еще сверху
 
+    sd.finish_drawing()
     if sd.user_want_exit(sleep_time=0.1):
         break
 
