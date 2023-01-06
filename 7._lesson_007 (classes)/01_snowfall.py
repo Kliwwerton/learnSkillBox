@@ -14,15 +14,21 @@ sd.resolution = (1200, 800)
 
 class Snowflake:
     """ Класс Снежинки """
+    instance = 0
 
     def __init__(self,
                  length=100,
                  color=sd.COLOR_WHITE):
-        self.x = random.randint(20, sd.resolution[0] - 20)
-        self.y = sd.resolution[1] - 20
-        self.point = sd.get_point(x=self.x, y=self.y)
         self.length = length
+        self.x = random.randint(20, sd.resolution[0] - 20)
+        if Snowflake.instance < 100:
+            self.y = random.randint(sd.resolution[1] / 2, sd.resolution[1] - self.length)
+        else:
+            self.y = sd.resolution[1] - 20
+        self.point = sd.get_point(x=self.x, y=self.y)
         self.color = color
+        Snowflake.instance += 1
+        print(Snowflake.instance)
 
     def draw(self):
         """Рисует снежинку на полотне"""
@@ -82,7 +88,7 @@ def append_flakes(count):
 #     if sd.user_want_exit(sleep_time=0.1):
 #         break
 
-n = 30
+n = 100
 
 # шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
 
