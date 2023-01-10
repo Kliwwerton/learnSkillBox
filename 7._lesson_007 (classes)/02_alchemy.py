@@ -23,9 +23,14 @@
 class Water:
 
     def __add__(self, other):
-        if isinstance(other, (Air, Fire, Earth)):
-            if other == Fire:
-                return Storm()
+        if isinstance(other, Air):
+            return Storm()
+        elif isinstance(other, Fire):
+            return Steam()
+        elif isinstance(other, Earth):
+            return Dirt()
+        else:
+            return f'{self} + {other}, получается неизвестная субстанция!'
 
     def __str__(self):
         return 'Вода'
@@ -34,17 +39,30 @@ class Water:
 class Air:
 
     def __add__(self, other):
-        pass
+        if isinstance(other, Water):
+            return Storm()
+        elif isinstance(other, Fire):
+            return Lightning()
+        elif isinstance(other, Earth):
+            return Dust()
+        else:
+            return f'{self} + {other}, получается неизвестная субстанция!'
+
+    def __str__(self):
+        return 'Воздух'
 
 
 class Fire:
 
     def __add__(self, other):
-        if isinstance(other, (Water, Air, Earth)):
-            if other == Water:
-                return Storm()
+        if isinstance(other, Water):
+            return Steam()
+        elif isinstance(other, Air):
+            return Lightning()
+        elif isinstance(other, Earth):
+            return Lava()
         else:
-            print("Не относится ни к одному из классов!")
+            return f'{self} + {other}, получается неизвестная субстанция!'
 
     def __str__(self):
         return 'Огонь'
@@ -53,11 +71,20 @@ class Fire:
 class Earth:
 
     def __add__(self, other):
-        pass
+        if isinstance(other, Water):
+            return Dirt()
+        elif isinstance(other, Air):
+            return Dust()
+        elif isinstance(other, Fire):
+            return Lava()
+        else:
+            return f'{self} + {other}, получается неизвестная субстанция!'
+
+    def __str__(self):
+        return 'Земля'
 
 
 class Storm:
-    title = 'Шторм'
 
     def __str__(self):
         return 'Шторм'
@@ -73,14 +100,31 @@ class Dirt:
         return 'Грязь'
 
 
+class Lightning:
+
+    def __str__(self):
+        return 'Молния'
+
+
+class Dust:
+    def __str__(self):
+        return 'Пыль'
+
+
+class Lava:
+    def __str__(self):
+        return 'Лава'
+
+
 def main():
-    water = Water()
-    earth = Earth()
-    fire = Fire()
-    air = Air()
-    # storm = Storm()
-    iq1 = water + fire
-    print(iq1)
+    # water = Water()
+    # earth = Earth()
+    # fire = Fire()
+    # air = Air()
+    # # storm = Storm()
+    #
+    # print(water + 100)
+    print(Water(), '+', Air(), '=', Water() + Air())
 
 
 if __name__ == '__main__':
