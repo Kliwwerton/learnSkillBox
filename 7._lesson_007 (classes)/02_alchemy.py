@@ -117,20 +117,16 @@ class Lava:
 
 
 def main():
-    # water = Water()
-    # earth = Earth()
-    # fire = Fire()
-    # air = Air()
-    # # storm = Storm()
-    #
-    # print(water + 100)
     print(Water(), '+', Air(), '=', Water() + Air())
-
-
-if __name__ == '__main__':
-    main()
+    print(Air(), '+', Water(), '=', Air() + Water())
+    print(Water(), '+', Fire(), '=', Water() + Fire())
+    print(Water(), '+', Earth(), '=', Water() + Earth())
 
 
 # Усложненное задание (делать по желанию)
 # Добавить еще элемент в игру.
 # Придумать что будет при сложении существующих элементов с новым.
+
+
+if __name__ == '__main__':
+    main()
