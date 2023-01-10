@@ -81,7 +81,6 @@ def main():
     # storm = Storm()
     iq1 = water + fire
     print(iq1)
-    print(fire)
 
 
 if __name__ == '__main__':

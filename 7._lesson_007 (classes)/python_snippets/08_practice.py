@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from random import randint
-
+from termcolor import cprint
 
 # Реализуем модель человека.
 # Человек может есть, работать, играть, ходить в магазин.
 # У человека есть степень сытости, немного еды и денег.
 # Если сытость < 0 единиц, человек умирает.
 # Человеку надо прожить 365 дней.
-from termcolor import cprint
 
 
 class Man:
@@ -35,7 +34,7 @@ class Man:
         self.house.money += 50
         self.fullness -= 10
 
-    def watch_MTV(self):
+    def watch_mtv(self):
         cprint('{} смотрел MTV целый день'.format(self.name), color='green')
         self.fullness -= 10
 
@@ -68,7 +67,7 @@ class Man:
         elif dice == 2:
             self.eat()
         else:
-            self.watch_MTV()
+            self.watch_mtv()
 
 
 class House:
@@ -90,16 +89,16 @@ citizens = [
 
 
 my_sweet_home = House()
-for citisen in citizens:
-    citisen.go_to_the_house(house=my_sweet_home)
+for citizen in citizens:
+    citizen.go_to_the_house(house=my_sweet_home)
 
 for day in range(1, 366):
     print('================ день {} =================='.format(day))
-    for citisen in citizens:
-        citisen.act()
+    for citizen in citizens:
+        citizen.act()
     print('--- в конце дня ---')
-    for citisen in citizens:
-        print(citisen)
+    for citizen in citizens:
+        print(citizen)
     print(my_sweet_home)
 
 # Создадим двух людей, живущих в одном доме - Бивиса и Батхеда

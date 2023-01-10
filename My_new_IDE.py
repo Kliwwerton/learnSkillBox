@@ -24,7 +24,7 @@ class My_windowApp(App):
         layout = BoxLayout(padding=50)
         label = Label(text='Привет Китти',
                       size_hint=(0.2, 0.2),
-                      pos_hint={'center_x': 0.1, 'center_y': 0.5})
+                      pos_hint={'center_x': 0.1, 'center_y': 0.9})
 
         btn = Button(text='Press Me',
                      size_hint=(0.2, 0.25),
@@ -32,7 +32,7 @@ class My_windowApp(App):
                      background_color=[0.5, 1, 1, 1])
         btn_2 = Button(text='Press my too',
                        size_hint=(0.2, 0.25),
-                       pos_hint={'center_x': 0.7, 'center_y': 0.7},
+                       pos_hint={'center_x': 0.7, 'center_y': 0.5},
                        background_color=[0.5, 1, 0.5, 1])
 
         layout.add_widget(label)
