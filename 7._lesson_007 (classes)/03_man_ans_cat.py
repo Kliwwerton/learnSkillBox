@@ -48,6 +48,10 @@ class Man:
         else:
             cprint('{} нет еды'.format(self.name), color='red')
 
+    def cleans(self):
+        self.fullness -= 10
+        self.house.dirt -= 25
+
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='blue')
         self.house.money += 50
@@ -81,6 +85,8 @@ class Man:
         dice = rd.randint(1, 6)
         if self.fullness < 20:
             self.eat()
+        elif self.house.dirt > 50:
+            self.cleans()
         elif self.house.food < 10:
             self.shopping()
         elif self.house.money < 0:
@@ -102,8 +108,12 @@ class House:
         self.dirt = 0
 
     def __str__(self):
-        return 'В доме человеческой еды осталось {}, денег осталось {}, корма для кота осталось {}'.format(
-            self.food, self.money, self.food_for_cat)
+        return 'В доме человеческой еды {}, для кота {}, денег {}, грязи {}'.format(
+            self.food, self.food_for_cat, self.money, self.dirt)
+
+    def check(self):
+        if self.dirt < 0:
+            self.dirt = 0
 
 
 class Cat:
@@ -121,7 +131,8 @@ class Cat:
         pass
 
     def play(self):
-        pass
+        self.fullness -= 10
+        self.house.dirt += 5
 
     def go_to_the_house(self, house):
         self.house = house
@@ -148,6 +159,7 @@ for day in range(1, 366):
     for citizen in citizens:
         print(citizen)
     print(cat)
+
     print(my_sweet_home)
 
 # Усложненное задание (делать по желанию)
