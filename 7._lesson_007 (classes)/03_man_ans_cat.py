@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import random as rd
+
+import colorama
 from termcolor import cprint
 
 # Доработать практическую часть урока lesson_007/python_snippets/08_practice.py
@@ -68,6 +70,10 @@ class Man:
         self.fullness -= 10
         cprint('{} Въехал в дом'.format(self.name), color='blue')
 
+    @staticmethod
+    def get_cat(_cat, house):
+        _cat.go_to_the_house(house=house)
+
     def act(self):
         if self.fullness <= 0:
             cprint('{} умер...'.format(self.name), color='red')
@@ -108,25 +114,40 @@ class Cat:
         self.name = name
         self.house = None
 
+    def __str__(self):
+        return f'Я {self.name}, моя сытость {self.fullness}'
+
+    def act(self):
+        pass
+
+    def play(self):
+        pass
+
+    def go_to_the_house(self, house):
+        self.house = house
+        self.fullness -= 10
+        print(colorama.Fore.RED + f'{self.name} поселился в доме!', colorama.Style.RESET_ALL)
+
 
 citizens = [
     Man(name='Бивис'),
-    Man(name='Батхед'),
-    Man(name='Кенни'),
+    # Man(name='Батхед'),
+    # Man(name='Кенни'),
 ]
-
-
+cat = Cat(name='Мурзик')
 my_sweet_home = House()
 for citizen in citizens:
     citizen.go_to_the_house(house=my_sweet_home)
-
+citizens[0].get_cat(_cat=cat, house=my_sweet_home)
 for day in range(1, 366):
     print('================ день {} =================='.format(day))
     for citizen in citizens:
         citizen.act()
+    cat.act()
     print('--- в конце дня ---')
     for citizen in citizens:
         print(citizen)
+    print(cat)
     print(my_sweet_home)
 
 # Усложненное задание (делать по желанию)
