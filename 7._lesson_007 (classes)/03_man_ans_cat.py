@@ -2,6 +2,7 @@
 
 import random as rd
 from termcolor import cprint
+
 # Доработать практическую часть урока lesson_007/python_snippets/08_practice.py
 
 # Необходимо создать класс кота. У кота есть аттрибуты - сытость и дом (в котором он живет).
@@ -65,7 +66,7 @@ class Man:
     def go_to_the_house(self, house):
         self.house = house
         self.fullness -= 10
-        cprint('{} Вьехал в дом'.format(self.name), color='cyan')
+        cprint('{} Въехал в дом'.format(self.name), color='blue')
 
     def act(self):
         if self.fullness <= 0:
@@ -76,7 +77,7 @@ class Man:
             self.eat()
         elif self.house.food < 10:
             self.shopping()
-        elif self.house.money < 50:
+        elif self.house.money < 0:
             self.work()
         elif dice == 1:
             self.work()
@@ -91,10 +92,21 @@ class House:
     def __init__(self):
         self.food = 50
         self.money = 0
+        self.food_for_cat = 0
+        self.dirt = 0
 
     def __str__(self):
-        return 'В доме еды осталось {}, денег осталось {}'.format(
-            self.food, self.money)
+        return 'В доме человеческой еды осталось {}, денег осталось {}, корма для кота осталось {}'.format(
+            self.food, self.money, self.food_for_cat)
+
+
+class Cat:
+    """ Класс кота """
+
+    def __init__(self, name):
+        self.fullness = 100
+        self.name = name
+        self.house = None
 
 
 citizens = [
