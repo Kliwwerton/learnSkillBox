@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-
+import random
 import random as rd
 
 import colorama
-from termcolor import cprint
 
 RESET = colorama.Style.RESET_ALL
 COLORED = colorama.Fore
+
 
 # Доработать практическую часть урока lesson_007/python_snippets/08_practice.py
 
@@ -45,24 +45,24 @@ class Man:
 
     def eat(self):
         if self.house.food >= 10:
-            cprint('{} поел'.format(self.name), color='yellow')
+            print(COLORED.LIGHTWHITE_EX + f'{self.name} поел' + RESET)
             self.fullness += 30
             self.house.food -= 10
         else:
-            cprint('{} нет еды'.format(self.name), color='red')
+            print(COLORED.CYAN + f'{self.name} нет еды' + RESET)
 
     def cleans(self):
-        print(colorama.Fore.LIGHTBLACK_EX + f'{self.name} прибрался за котом!' + colorama.Style.RESET_ALL)
+        print(COLORED.LIGHTBLUE_EX + f'{self.name} прибрался за котом!' + RESET)
         self.fullness -= 10
-        self.house.dirt -= 25
+        self.house.dirt -= 50
 
     def work(self):
-        cprint('{} сходил на работу'.format(self.name), color='blue')
+        print(COLORED.YELLOW + f'{self.name} сходил на работу' + RESET)
         self.house.money += 50
-        self.fullness -= 10
+        self.fullness -= 20
 
     def watch_mtv(self):
-        cprint('{} смотрел MTV целый день'.format(self.name), color='green')
+        print(COLORED.BLUE + f'{self.name} смотрел MTV целый день' + RESET)
         self.fullness -= 5
 
     def shopping(self):
@@ -90,7 +90,11 @@ class Man:
     def go_to_the_house(self, house):
         self.house = house
         self.fullness -= 10
-        cprint('{} Въехал в дом'.format(self.name), color='blue')
+        print(f'{self.name} Въехал в дом')
+
+    def left_to_the_house(self):
+        self.house = None
+        print(f'{self.name} выехал из дома!')
 
     @staticmethod
     def get_cat(_cat, house):
@@ -98,41 +102,48 @@ class Man:
 
     def play_with_cat(self, _cat):
         self.fullness -= 5
-        _cat.play()
-        print(colorama.Fore.CYAN + f'{self.name} поиграл с {_cat.name}ом!' + RESET)
+        _cat.play_with_owner()
+        print(COLORED.CYAN + f'{self.name} поиграл с {_cat.name}ом!' + RESET)
 
     def feed_the_cat(self, _cat):
         self.fullness -= 5
-        _cat.fullness += 20
+        _cat.fullness += 50
         self.house.food_for_cat -= 10
         print(COLORED.LIGHTGREEN_EX + f'{self.name} покормил кота!' + RESET)
 
     def act(self, _cat):
-        self.fullness -= 10
+
         if self.fullness <= 0:
-            cprint('{} умер...'.format(self.name), color='red')
+            print(COLORED.BLUE + f'{self.name} умер...' + RESET)
+            self.left_to_the_house()
             return
-        dice = rd.randint(1, 6)
-        if self.fullness < 30:
-            self.eat()
-        elif self.house.food < 10:
-            self.shopping()
-        elif self.house.dirt > 50:
-            self.cleans()
-        elif self.house.money < 0:
-            self.work()
-        elif dice == 1:
-            self.work()
-        elif dice == 2:
-            self.eat()
-        elif dice == 3:
-            self.play_with_cat(_cat)
+        if self.house:
+            dice = rd.randint(1, 6)
+            if self.fullness < 30:
+                self.eat()
+            elif self.house.food < 10:
+                self.shopping()
+            elif self.house.dirt > 80:
+                self.cleans()
+            elif self.house.money < 0:
+                self.work()
+            elif dice == 1:
+                self.work()
+            elif dice == 2:
+                self.eat()
+            elif dice == 3:
+                self.play_with_cat(_cat)
+            elif dice == 4:
+                self.cleans()
+            else:
+                self.watch_mtv()
+
+            if self.house.food_for_cat < 10:
+                self.shopping()
+            elif _cat.fullness <= 20:
+                self.feed_the_cat(_cat)
         else:
-            self.watch_mtv()
-        if self.house.food_for_cat < 10:
-            self.shopping()
-        elif _cat.fullness <= 10:
-            self.feed_the_cat(_cat)
+            return
 
 
 class House:
@@ -166,13 +177,28 @@ class Cat:
         return f'Я {self.name}, сытость {self.fullness}, энергии {self.energy}'
 
     def act(self):
-        self.fullness -= 10
+        if self.fullness <= 0:
+            print(COLORED.RED + f'{self.name} ПОДОХ от ГОЛОДА!!!' + RESET)
+            return
+        self.fullness -= 5
         self.energy -= 5
+        dice = random.randint(1, 6)
         if self.energy < 10:
             self.sleep()
-        if self.action:
-            self.play()
-        print(f'{self.name} ')
+
+        elif self.action:
+            if dice == 1:
+                self.play()
+            elif dice == 2:
+                self.scratching_the_wallpaper()
+            elif dice == 3:
+                self.shat()
+            elif self.energy > 80:
+                self.scratching_the_wallpaper()
+            else:
+                self.sleep()
+        else:
+            self.action = True
 
     def sleep(self):
         self.fullness -= 5
@@ -183,11 +209,32 @@ class Cat:
         self.fullness -= 10
         self.house.dirt += 5
         self.energy -= 10
+
+        print(COLORED.YELLOW + f'{self.name} поиграл с ТРИКСИ' + RESET)
+
+    def play_with_owner(self):
+        self.fullness -= 10
+        self.house.dirt += 5
+        self.energy -= 10
         self.action = False
+        print(COLORED.LIGHTCYAN_EX + f'{self.name} поиграл с хозяином!' + RESET)
+
+    def scratching_the_wallpaper(self):
+        self.fullness -= 10
+        self.energy -= 10
+        self.house.dirt += 20
+        print(COLORED.MAGENTA + f'{self.name} ДРАЛ ОБОИ!!!' + RESET)
+
+    def shat(self):
+        self.fullness -= 5
+        self.house.dirt += 30
+        self.energy -= 10
+        print(COLORED.LIGHTGREEN_EX + f'{self.name} нагадил в угол!' + RESET)
 
     def go_to_the_house(self, house):
         self.house = house
         self.fullness -= 10
+        self.energy -= 10
         print(colorama.Fore.RED + f'{self.name} поселился в доме!', colorama.Style.RESET_ALL)
 
 
@@ -201,15 +248,18 @@ my_sweet_home = House()
 for citizen in citizens:
     citizen.go_to_the_house(house=my_sweet_home)
 citizens[0].get_cat(_cat=cat, house=my_sweet_home)
+print(my_sweet_home)
 for day in range(1, 100):
     print('================ день {} =================='.format(day))
     for citizen in citizens:
         citizen.act(cat)
+
     cat.act()
     print('--- в конце дня ---')
     for citizen in citizens:
         print(citizen)
     print(cat)
+    my_sweet_home.check()
 
     print(my_sweet_home)
 
