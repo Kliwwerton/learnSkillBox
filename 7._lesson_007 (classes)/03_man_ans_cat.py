@@ -160,6 +160,7 @@ class Cat:
         self.energy = 50
         self.name = name
         self.house = None
+        self.action = True
 
     def __str__(self):
         return f'Я {self.name}, сытость {self.fullness}, энергии {self.energy}'
@@ -169,6 +170,8 @@ class Cat:
         self.energy -= 5
         if self.energy < 10:
             self.sleep()
+        if self.action:
+            self.play()
         print(f'{self.name} ')
 
     def sleep(self):
@@ -180,6 +183,7 @@ class Cat:
         self.fullness -= 10
         self.house.dirt += 5
         self.energy -= 10
+        self.action = False
 
     def go_to_the_house(self, house):
         self.house = house
