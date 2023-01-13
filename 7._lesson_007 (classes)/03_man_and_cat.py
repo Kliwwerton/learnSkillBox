@@ -30,6 +30,12 @@ COLORED = colorama.Fore
 
 # Человеку и коту надо вместе прожить 365 дней.
 
+def my_string(arg):
+    a = ''
+    for m in arg:
+        a += m.name + ' '
+    return a
+
 
 class Man:
 
@@ -160,9 +166,11 @@ class House:
 
     def __str__(self):
         if self.residents_people and self.residents_cats:
+            text_1 = my_string(self.residents_people)
+            text_2 = my_string(self.residents_cats)
             return f'В доме еды {self.food}, корма {self.food_for_cat}, денег {self.money}, грязи {self.dirt}\n' \
-                   f'В доме сейчас живут Люди: {[j.name for j in self.residents_people]} ' \
-                   f'И кошки: {[k.name for k in self.residents_cats]}'
+                   f'В доме сейчас живут Люди: {text_1} ' \
+                   f'И кошки: {text_2}'
         else:
             return 'В доме человеческой еды {}, для кота {}, денег {}, грязи {}'.format(
                self.food, self.food_for_cat, self.money, self.dirt)
@@ -212,6 +220,8 @@ class Cat:
     def sleep(self):
         self.fullness -= 5
         self.energy += 30
+        if self.energy >= 100:
+            self.energy = 100
         print(f'{self.name} поспал!')
 
     def play(self):
@@ -251,7 +261,7 @@ class Cat:
 citizens = [
     Man(name='Бивис'),
     Man(name='Батхед'),
-    # Man(name='Кенни'),
+    Man(name='Кенни'),
 ]
 cat = Cat(name='Мурзик')
 my_sweet_home = House()
