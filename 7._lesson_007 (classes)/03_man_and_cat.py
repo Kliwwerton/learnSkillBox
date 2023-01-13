@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import random
 import random as rd
 
 import colorama
@@ -47,14 +46,16 @@ class Man:
         if self.house.food >= 10:
             print(COLORED.LIGHTWHITE_EX + f'{self.name} поел' + RESET)
             self.fullness += 30
+            if self.fullness >= 100:
+                self.fullness = 100
             self.house.food -= 10
         else:
             print(COLORED.CYAN + f'{self.name} нет еды' + RESET)
 
     def cleans(self):
-        print(COLORED.LIGHTBLUE_EX + f'{self.name} прибрался за котом!' + RESET)
+        print(COLORED.LIGHTBLUE_EX + f'{self.name} прибрался в доме!' + RESET)
         self.fullness -= 10
-        self.house.dirt -= 50
+        self.house.dirt = 0
 
     def work(self):
         print(COLORED.YELLOW + f'{self.name} сходил на работу' + RESET)
@@ -90,6 +91,7 @@ class Man:
     def go_to_the_house(self, house):
         self.house = house
         self.fullness -= 10
+        self.house.residents_people.append(self)
         print(f'{self.name} Въехал в дом')
 
     def left_to_the_house(self):
@@ -107,7 +109,7 @@ class Man:
 
     def feed_the_cat(self, _cat):
         self.fullness -= 5
-        _cat.fullness += 50
+        _cat.fullness += 30
         self.house.food_for_cat -= 10
         print(COLORED.LIGHTGREEN_EX + f'{self.name} покормил кота!' + RESET)
 
@@ -153,10 +155,17 @@ class House:
         self.money = 0
         self.food_for_cat = 0
         self.dirt = 0
+        self.residents_people = []
+        self.residents_cats = []
 
     def __str__(self):
-        return 'В доме человеческой еды {}, для кота {}, денег {}, грязи {}'.format(
-            self.food, self.food_for_cat, self.money, self.dirt)
+        if self.residents_people and self.residents_cats:
+            return f'В доме еды {self.food}, корма {self.food_for_cat}, денег {self.money}, грязи {self.dirt}\n' \
+                   f'В доме сейчас живут Люди: {[j.name for j in self.residents_people]} ' \
+                   f'И кошки: {[k.name for k in self.residents_cats]}'
+        else:
+            return 'В доме человеческой еды {}, для кота {}, денег {}, грязи {}'.format(
+               self.food, self.food_for_cat, self.money, self.dirt)
 
     def check(self):
         if self.dirt < 0:
@@ -182,7 +191,7 @@ class Cat:
             return
         self.fullness -= 5
         self.energy -= 5
-        dice = random.randint(1, 6)
+        dice = rd.randint(1, 6)
         if self.energy < 10:
             self.sleep()
 
@@ -235,12 +244,13 @@ class Cat:
         self.house = house
         self.fullness -= 10
         self.energy -= 10
+        self.house.residents_cats.append(self)
         print(colorama.Fore.RED + f'{self.name} поселился в доме!', colorama.Style.RESET_ALL)
 
 
 citizens = [
     Man(name='Бивис'),
-    # Man(name='Батхед'),
+    Man(name='Батхед'),
     # Man(name='Кенни'),
 ]
 cat = Cat(name='Мурзик')
@@ -251,8 +261,8 @@ citizens[0].get_cat(_cat=cat, house=my_sweet_home)
 print(my_sweet_home)
 for day in range(1, 100):
     print('================ день {} =================='.format(day))
-    for citizen in citizens:
-        citizen.act(cat)
+    for i in my_sweet_home.residents_people:
+        i.act(cat)
 
     cat.act()
     print('--- в конце дня ---')
