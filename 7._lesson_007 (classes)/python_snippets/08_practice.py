@@ -49,7 +49,7 @@ class Man:
     def go_to_the_house(self, house):
         self.house = house
         self.fullness -= 10
-        cprint('{} Вьехал в дом'.format(self.name), color='cyan')
+        cprint('{} Въехал в дом'.format(self.name), color='cyan')
 
     def act(self):
         if self.fullness <= 0:
