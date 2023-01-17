@@ -74,19 +74,19 @@ class House:
     @staticmethod
     def my_residents(arg):
         string = ''
-        if len(arg) > 1:
-            for i in range(len(arg)-1):
-                string += arg[i].name + ', '
-            string += arg[-1].name
-        elif len(arg) == 1:
+        if len(arg) == 1:
             string += arg[0].name
+        elif len(arg) > 1:
+            for i in range(len(arg)-2):
+                string += arg[i].name + ', '
+            string += arg[-2].name + ' и ' + arg[-1].name
         else:
-            string += 'НИКТО!'
+            string += 'НИКТО ЗДЕСЬ НЕ ЖИВЁТ!'
         return string
 
     def __str__(self):
         str_1 = self.my_residents(self.residents)
-        return f'Я {self.name}, здесь живут {str_1}\n' \
+        return f'Я {self.name}, здесь живут: {str_1}\n' \
                f'Еды в холодильнике {self.food}, денег в тумбочке {self.money}, грязи {self.dirt}'
 
     def act(self):
@@ -111,10 +111,7 @@ class Husband(Human):
         pass
 
 
-class Wife:
-
-    def __init__(self):
-        pass
+class Wife(Human):
 
     def __str__(self):
         return super().__str__()
@@ -137,15 +134,16 @@ class Wife:
 
 home = House(name='Домик')
 serge = Husband(name='Сережа')
-# masha = Wife(name='Маша')
+masha = Wife(name='Маша')
 serge.leaving_into_house(house=home)
+masha.leaving_into_house(house=home)
 
 for day in range(365):
     print('================== День {} =================='.format(day))
     serge.act()
-    # masha.act()
+    masha.act()
     print(serge)
-    # print(masha)
+    print(masha)
     print(home)
 
 
