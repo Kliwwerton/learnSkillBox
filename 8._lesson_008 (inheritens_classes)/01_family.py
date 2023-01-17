@@ -41,9 +41,9 @@
 
 class Human:
     """Class Human"""
-    def __init__(self, name, house):
+    def __init__(self, name):
         self.name = name
-        self.house = house
+        self.house = None
         self.fullness = 30
         self.happiness = 100
 
@@ -54,6 +54,12 @@ class Human:
         self.fullness += 30
         self.house.food -= 30
         return f'{self.name} покушал(а)'
+
+    def leaving_into_house(self, house):
+        self.house = house
+        self.house.residents.append(self)
+        self.fullness -= 10
+        print(f'{self.name}, въехал в {self.house.name}')
 
 
 class House:
@@ -70,10 +76,10 @@ class House:
         string = ''
         if len(arg) > 1:
             for i in range(len(arg)-1):
-                string += arg[i] + ', '
-            string += arg[-1]
+                string += arg[i].name + ', '
+            string += arg[-1].name
         elif len(arg) == 1:
-            string += arg[0]
+            string += arg[0].name
         else:
             string += 'НИКТО!'
         return string
@@ -129,9 +135,10 @@ class Wife:
         pass
 
 
-home = House()
-serge = Husband(name='Сережа', house=home)
+home = House(name='Домик')
+serge = Husband(name='Сережа')
 # masha = Wife(name='Маша')
+serge.leaving_into_house(house=home)
 
 for day in range(365):
     print('================== День {} =================='.format(day))
