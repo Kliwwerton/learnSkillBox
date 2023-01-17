@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from termcolor import cprint
-from random import randint
-
-
 # ЧАСТЬ ПЕРВАЯ.
 #
 # Создать модель жизни небольшой семьи
@@ -43,16 +39,55 @@ from random import randint
 # Подвести итоги жизни за год: сколько было заработано денег, сколько съедено еды, сколько куплено шуб.
 
 
+class Human:
+    """Class Human"""
+    def __init__(self, name, house):
+        self.name = name
+        self.house = house
+        self.fullness = 30
+        self.happiness = 100
+
+    def __str__(self):
+        return f'Я {self.name}, сытость {self.fullness}, уровень счастья {self.happiness}'
+
+    def eat(self):
+        self.fullness += 30
+        self.house.food -= 30
+        return f'{self.name} покушал(а)'
+
+
 class House:
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        self.money = 100
+        self.food = 50
+        self.dirt = 0
+        self.residents = []
+
+    @staticmethod
+    def my_residents(arg):
+        string = ''
+        if len(arg) > 1:
+            for i in range(len(arg)-1):
+                string += arg[i] + ', '
+            string += arg[-1]
+        elif len(arg) == 1:
+            string += arg[0]
+        else:
+            string += 'НИКТО!'
+        return string
+
+    def __str__(self):
+        str_1 = self.my_residents(self.residents)
+        return f'Я {self.name}, здесь живут {str_1}\n' \
+               f'Еды в холодильнике {self.food}, денег в тумбочке {self.money}, грязи {self.dirt}'
+
+    def act(self):
+        self.dirt += 5
 
 
-class Husband:
-
-    def __init__(self):
-        pass
+class Husband(Human):
 
     def __str__(self):
         return super().__str__()
@@ -95,16 +130,16 @@ class Wife:
 
 
 home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
+serge = Husband(name='Сережа', house=home)
+# masha = Wife(name='Маша')
 
 for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
+    print('================== День {} =================='.format(day))
     serge.act()
-    masha.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
+    # masha.act()
+    print(serge)
+    # print(masha)
+    print(home)
 
 
 # TODO после реализации первой части - отдать на проверку учителю
@@ -187,26 +222,26 @@ class Child:
 #  ЧАСТЬ ТРЕТЬЯ
 #
 # после подтверждения учителем второй части (обеих веток)
-# влить в мастер все коммиты из ветки develop и разрешить все конфликты
+# влить в ветку мастер все коммиты из ветки develop и разрешить все конфликты
 # отправить на проверку учителем.
 
 
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-kolya = Child(name='Коля')
-murzik = Cat(name='Мурзик')
-
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    kolya.act()
-    murzik.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(kolya, color='cyan')
-    cprint(murzik, color='cyan')
+# home = House()
+# serge = Husband(name='Сережа')
+# masha = Wife(name='Маша')
+# kolya = Child(name='Коля')
+# murzik = Cat(name='Мурзик')
+#
+# for day in range(365):
+#     print('================== День {} =================='.format(day))
+#     serge.act()
+#     masha.act()
+#     kolya.act()
+#     murzik.act()
+#     print(serge)
+#     print(masha)
+#     print(kolya)
+#     print(murzik)
 
 # Усложненное задание (делать по желанию)
 #

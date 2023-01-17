@@ -30,11 +30,7 @@ COLORED = colorama.Fore
 
 # Человеку и коту надо вместе прожить 365 дней.
 
-def my_string(arg):
-    a = ''
-    for m in arg:
-        a += m.name + ' '
-    return a
+
 
 
 class Man:
@@ -164,10 +160,17 @@ class House:
         self.residents_people = []
         self.residents_cats = []
 
+    @staticmethod
+    def my_string(arg):
+        a = ''
+        for m in arg:
+            a += m.name + ' '
+        return a
+
     def __str__(self):
         if self.residents_people and self.residents_cats:
-            text_1 = my_string(self.residents_people)
-            text_2 = my_string(self.residents_cats)
+            text_1 = self.my_string(self.residents_people)
+            text_2 = self.my_string(self.residents_cats)
             return f'В доме еды {self.food}, корма {self.food_for_cat}, денег {self.money}, грязи {self.dirt}\n' \
                    f'В доме сейчас живут Люди: {text_1} ' \
                    f'И кошки: {text_2}'

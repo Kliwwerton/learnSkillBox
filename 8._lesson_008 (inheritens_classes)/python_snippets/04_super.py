@@ -23,7 +23,7 @@ class VacuumCleaningRobot(Robot):
         self.dust_bug = 0
 
     def operate(self):
-        print('Робот пылесосит пол, заполенность мешка для пыли', self.dust_bug)
+        print('Робот пылесосит пол, заполненность мешка для пыли', self.dust_bug)
 
 
 roomba = VacuumCleaningRobot(model='roomba M505')
