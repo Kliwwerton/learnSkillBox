@@ -59,9 +59,17 @@ class Human:
         return f'{self.name}, сытость {self.fullness}, уровень счастья {self.happiness}'
 
     def eat(self):
-        self.fullness += 30
-        self.house.food -= 30
-        print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET)
+        if self.house.food >= 30:
+            self.fullness += 30
+            self.house.food -= 30
+            print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET)
+        elif 0 < self.house.food < 30:
+            self.fullness += self.house.food
+            self.house.food = 0
+            print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET,
+                  COLORED_background.RED + 'ЕДА КОНЧИЛАСЬ' + RESET)
+        else:
+            print(COLORED_font.RED + f'{self.name} остался(лась) голодом!!! ЕДЫ НЕТ!!!' + RESET)
 
     def leaving_into_house(self, house):
         self.house = house
@@ -80,6 +88,7 @@ class House:
         self.money = 100
         self.food = 50
         self.dirt = 0
+        self.house_situation = True
         self.residents = []
 
     @staticmethod
@@ -119,27 +128,34 @@ class Husband(Human):
         return super().__str__()
 
     def act(self):
-        if self.fullness < 30:
-            self.eat()
-        elif self.house.money < 30:
-            self.work()
-        else:
-            dice = random.randint(1, 6)
-            if dice == 1:
+        if self.house.house_situation:
+            if self.fullness <= 30:
+                self.eat()
+            elif self.house.money < 100:
                 self.work()
-            elif dice == 2:
-                if self.fullness < 100:
-                    self.eat()
-                else:
-                    print(COLORED_font.LIGHTWHITE_EX + f'{self.name} сыт по горло!')
-                    self.gaming()
             else:
-                self.gaming()
+                dice = random.randint(1, 6)
+                if dice == 1:
+                    self.work()
+                elif dice == 2:
+                    if self.fullness < 100:
+                        self.eat()
+                    else:
+                        print(COLORED_font.LIGHTWHITE_EX + f'{self.name} сыт по горло!')
+                        self.gaming()
+                else:
+                    self.gaming()
+        else:
+            if self.fullness < 20:
+                self.eat()
+            else:
+                print(COLORED_font.LIGHTBLUE_EX + f'Жена депрессует!!!')
+                self.work()
 
     def work(self):
         self.fullness -= 10
         self.house.money += 150
-        House.total_money += 150
+        self.house.total_money += 150
         self.happiness -= 10
         print(COLORED_font.YELLOW + f'{self.name} сходил на работу!' + RESET)
 
@@ -147,6 +163,8 @@ class Husband(Human):
         self.fullness -= 10
         if self.happiness < 100:
             self.happiness += 20
+            if self.happiness > 100:
+                self.happiness = 100
         print(COLORED_font.CYAN + f'{self.name} играл в WoT целый день!' + RESET)
 
 
@@ -156,13 +174,20 @@ class Wife(Human):
         return super().__str__()
 
     def act(self):
-        if self.fullness < 20:
+        if self.happiness <= 30:
+            self.house.house_situation = False
+            if any(isinstance(x, Husband) for x in self.house.residents):
+                print(COLORED_font.RED + f'{self.name} пилит мужа из-за наступающей депрессии!' + RESET)
+        else:
+            self.house.house_situation = True
+
+        if self.fullness < 30:
             self.eat()
         elif self.house.food < 30:
             self.shopping()
         elif self.house.dirt >= 90:
             self.clean_house()
-        elif self.house.money > 350:
+        elif self.house.money > 350 and self.happiness <= 30:
             self.buy_fur_coat()
         else:
             dice = random.randint(1, 2)
@@ -170,7 +195,7 @@ class Wife(Human):
                 if self.fullness < 100:
                     self.eat()
                 else:
-                    print(f'{self.name} сыта по горло! Пойду посплю.')
+                    print(COLORED_font.YELLOW + f'{self.name} сыта по горло! Пойду посплю.' + RESET)
                     self.fullness -= 10
             else:
                 self.clean_house()
@@ -178,13 +203,13 @@ class Wife(Human):
     def shopping(self):
         if self.house.money >= 100:
             self.house.food += 100
-            House.total_food += 100
+            self.house.total_food += 100
             self.house.money -= 100
             self.fullness -= 10
             print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
         elif self.house.money < 100:
             self.house.food += self.house.money
-            House.total_food += self.house.money
+            self.house.total_food += self.house.money
             self.house.money = 0
             self.fullness -= 10
             print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
@@ -196,7 +221,7 @@ class Wife(Human):
         self.happiness += 60
         self.house.money -= 350
         self.fullness -= 10
-        House.total_fur_coat += 1
+        self.house.total_fur_coat += 1
         print(COLORED_font.GREEN + f'{self.name} купила себе новую шубу!' + RESET)
 
     def clean_house(self):
@@ -205,7 +230,7 @@ class Wife(Human):
             self.house.dirt = 0
         self.fullness -= 10
         self.happiness -= 10
-        print(f'{self.name} прибралась в доме!')
+        print(COLORED_font.LIGHTRED_EX + f'{self.name} прибралась в доме!' + RESET)
 
 
 home = House(name='Домик')
@@ -221,7 +246,9 @@ for day in range(365):
         print(i)
 
     print(home)
-
+print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
+      '\nЗаработано: ', home.total_money, 'денег, ' 
+      '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
 
 # TODO после реализации первой части - отдать на проверку учителю
 
