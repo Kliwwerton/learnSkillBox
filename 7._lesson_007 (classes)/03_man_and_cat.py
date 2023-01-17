@@ -6,7 +6,6 @@ import colorama
 RESET = colorama.Style.RESET_ALL
 COLORED = colorama.Fore
 
-
 # Доработать практическую часть урока lesson_007/python_snippets/08_practice.py
 
 # Необходимо создать класс кота. У кота есть аттрибуты - сытость и дом (в котором он живет).
@@ -29,8 +28,6 @@ COLORED = colorama.Fore
 # что будет делать сегодня
 
 # Человеку и коту надо вместе прожить 365 дней.
-
-
 
 
 class Man:
