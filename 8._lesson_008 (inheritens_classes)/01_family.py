@@ -55,6 +55,9 @@ class Human:
         self.house.food -= 30
         return f'{self.name} покушал(а)'
 
+    def moving_into_house(self):
+        self.house.residents.append(self)
+
 
 class House:
 
@@ -69,18 +72,19 @@ class House:
     def my_residents(arg):
         string = ''
         if len(arg) > 1:
+            string += 'здесь живут: '
             for i in range(len(arg)-1):
-                string += arg[i] + ', '
-            string += arg[-1]
+                string += arg[i].name + ', '
+            string += arg[-1].name
         elif len(arg) == 1:
-            string += arg[0]
+            string += 'здесь живёт: ' + arg[0].name
         else:
-            string += 'НИКТО!'
+            string += 'НИКТО НЕ ЖИВЁТ!'
         return string
 
     def __str__(self):
         str_1 = self.my_residents(self.residents)
-        return f'Я {self.name}, здесь живут {str_1}\n' \
+        return f'Я {self.name}, {str_1}\n' \
                f'Еды в холодильнике {self.food}, денег в тумбочке {self.money}, грязи {self.dirt}'
 
     def act(self):
@@ -129,9 +133,10 @@ class Wife:
         pass
 
 
-home = House()
+home = House(name='Домик')
 serge = Husband(name='Сережа', house=home)
 # masha = Wife(name='Маша')
+serge.moving_into_house()
 
 for day in range(365):
     print('================== День {} =================='.format(day))
@@ -139,6 +144,7 @@ for day in range(365):
     # masha.act()
     print(serge)
     # print(masha)
+    home.act()
     print(home)
 
 
