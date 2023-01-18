@@ -84,6 +84,7 @@ class House:
     total_food = 0
     total_fur_coat = 0
     total_cat_food = 0
+    total_buildings_materials = 0
 
     def __init__(self, name):
         self.name = name
@@ -92,6 +93,7 @@ class House:
         self.cat_food = 50
         self.dirt = 0
         self.house_situation = True
+        self.building_materials = False
         self.crash = 0
         self.residents = []
 
@@ -112,7 +114,7 @@ class House:
         str_1 = self.my_residents(self.residents)
         return f'Я {self.name}, здесь живут: {str_1}\n' \
                f'Еды в холодильнике {self.food}, корма для кошек {self.cat_food}, ' \
-               f'денег в тумбочке {self.money}, грязи {self.dirt}'
+               f'денег в тумбочке {self.money}, грязи {self.dirt}, \nсостояние дома {self.crash}'
 
     def act(self):
         self.dirt += 5
@@ -138,6 +140,8 @@ class Husband(Human):
                 self.eat()
             elif self.house.money < 100:
                 self.work()
+            elif self.house.building_materials:
+                self.make_repairs()
             else:
                 dice = random.randint(1, 6)
                 if dice == 1:
@@ -163,6 +167,14 @@ class Husband(Human):
         self.house.total_money += 150
         self.happiness -= 10
         print(COLORED_font.YELLOW + f'{self.name} сходил на работу!' + RESET)
+
+    def make_repairs(self):
+        self.fullness -= 10
+        self.happiness -= 10
+        self.house.crash -= 100
+        if self.house.crash < 0: self.house.crash = 0
+        self.house.building_materials = False
+        print(COLORED_font.YELLOW + f'{self.name} Сделал ремонт в доме!' + RESET)
 
     def gaming(self):
         self.fullness -= 10
@@ -192,6 +204,9 @@ class Wife(Human):
             self.shopping()
         elif self.house.cat_food < 20:
             self.cat_food_shopping()
+        elif self.house.crash > 90:
+            self.shopping_building_materials()
+
         elif self.house.dirt >= 90:
             self.clean_house()
         elif self.house.money > 350 and self.happiness <= 30:
@@ -230,12 +245,20 @@ class Wife(Human):
         if self.house.money < 30:
             print(COLORED_font.RED + f'Нет денег на корм для кота!' + RESET)
         else:
-            self.house.money -= 30
-            self.house.cat_food += 30
+            self.house.money -= 50
+            self.house.cat_food += 100
             self.fullness -= 10
             self.happiness += 5
             self.house.total_cat_food += 30
             print(COLORED_font.BLUE + f'{self.name} сходила за кормом для кота.' + RESET)
+
+    def shopping_building_materials(self):
+        self.house.building_materials = True
+        self.fullness -= 10
+        self.house.money -= 100
+        self.happiness += 10
+        self.house.total_buildings_materials += 1
+        print(COLORED_font.LIGHTMAGENTA_EX + f'{self.name} купила обои для ремонта!' + RESET)
 
     def buy_fur_coat(self):
         self.happiness += 60
@@ -330,7 +353,7 @@ class Cat:
             self.house.cat_food = 0
             print(COLORED_font.CYAN + f'{self.name} покушал(а), но не досыта!!!' + RESET)
         else:
-            print(COLORED_font.RED + f'{self.name} остался(лась) голодом, КОРМА НЕТ!')
+            print(COLORED_font.RED + f'{self.name} остался(лась) голодом, КОРМА НЕТ!' + RESET)
 
     def sleep(self):
         self.fullness -= 10
@@ -409,7 +432,8 @@ for day in range(365):
 print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
       '\nКорма для кошек: ', home.total_cat_food,
       '\nЗаработано: ', home.total_money, 'денег, '
-      '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
+      '\nКуплено: ', home.total_fur_coat, 'шуб, '
+      '\nОбои покупали: ', home.total_buildings_materials, 'раз' + RESET)
 
 # Усложненное задание (делать по желанию)
 #
