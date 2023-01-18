@@ -309,22 +309,25 @@ class Cat:
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья - не меняется, всегда ==100 ;)
 
-class Child:
-
-    def __init__(self):
-        pass
+class Child(Human):
 
     def __str__(self):
         return super().__str__()
 
     def act(self):
-        pass
+        if self.fullness <= 30:
+            self.eat()
+        else:
+            self.sleep()
 
     def eat(self):
-        pass
+        self.house.food -= 30
+        self.fullness += 30
+        print(COLORED_font.BLUE + f'{self.name} покушал.' + RESET)
 
     def sleep(self):
-        pass
+        self.fullness -= 10
+        print(COLORED_font.BLUE + f'{self.name} поспал!' + RESET)
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
