@@ -3,10 +3,10 @@ import random
 
 import colorama
 
-
 COLORED_font = colorama.Fore
 COLORED_background = colorama.Back
 RESET = colorama.Style.RESET_ALL
+
 
 # ЧАСТЬ ПЕРВАЯ.
 #
@@ -49,6 +49,7 @@ RESET = colorama.Style.RESET_ALL
 
 class Human:
     """Class Human"""
+
     def __init__(self, name):
         self.name = name
         self.house = None
@@ -82,13 +83,16 @@ class House:
     total_money = 0
     total_food = 0
     total_fur_coat = 0
+    total_cat_food = 0
 
     def __init__(self, name):
         self.name = name
         self.money = 100
         self.food = 50
+        self.cat_food = 50
         self.dirt = 0
         self.house_situation = True
+        self.crash = 0
         self.residents = []
 
     @staticmethod
@@ -107,7 +111,8 @@ class House:
     def __str__(self):
         str_1 = self.my_residents(self.residents)
         return f'Я {self.name}, здесь живут: {str_1}\n' \
-               f'Еды в холодильнике {self.food}, денег в тумбочке {self.money}, грязи {self.dirt}'
+               f'Еды в холодильнике {self.food}, корма для кошек {self.cat_food}, ' \
+               f'денег в тумбочке {self.money}, грязи {self.dirt}'
 
     def act(self):
         self.dirt += 5
@@ -174,7 +179,7 @@ class Wife(Human):
         return super().__str__()
 
     def act(self):
-        if self.happiness <= 30:
+        if self.happiness <= 30 or self.house.money < 30:
             self.house.house_situation = False
             if any(isinstance(x, Husband) for x in self.house.residents):
                 print(COLORED_font.RED + f'{self.name} пилит мужа из-за наступающей депрессии!' + RESET)
@@ -185,6 +190,8 @@ class Wife(Human):
             self.eat()
         elif self.house.food < 30:
             self.shopping()
+        elif self.house.cat_food < 20:
+            self.cat_food_shopping()
         elif self.house.dirt >= 90:
             self.clean_house()
         elif self.house.money > 350 and self.happiness <= 30:
@@ -219,6 +226,17 @@ class Wife(Human):
             print(COLORED_font.RED + f'Денег нет, но вы держитесь! {self.name} '
                                      f'не купила еды, потому что раздолбай муж их не заработал!!!')
 
+    def cat_food_shopping(self):
+        if self.house.money < 30:
+            print(COLORED_font.RED + f'Нет денег на корм для кота!' + RESET)
+        else:
+            self.house.money -= 30
+            self.house.cat_food += 30
+            self.fullness -= 10
+            self.happiness += 5
+            self.house.total_cat_food += 30
+            print(COLORED_font.BLUE + f'{self.name} сходила за кормом для кота.' + RESET)
+
     def buy_fur_coat(self):
         self.happiness += 60
         self.house.money -= 350
@@ -235,24 +253,24 @@ class Wife(Human):
         print(COLORED_font.LIGHTRED_EX + f'{self.name} прибралась в доме!' + RESET)
 
 
-home = House(name='Домик')
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-serge.leaving_into_house(house=home)
-masha.leaving_into_house(house=home)
-
-for day in range(365):
-    print('================== День {} =================='.format(day))
-    home.act()
-    for i in home.residents:
-        print(i)
-
-    print(home)
-
-print(COLORED_font.RED + f'============================ ИТОГИ ГОДА! ==========================')
-print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
-      '\nЗаработано: ', home.total_money, 'денег, ' 
-      '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
+# home = House(name='Домик')
+# serge = Husband(name='Сережа')
+# masha = Wife(name='Маша')
+# serge.leaving_into_house(house=home)
+# masha.leaving_into_house(house=home)
+#
+# for day in range(365):
+#     print('================== День {} =================='.format(day))
+#     home.act()
+#     for i in home.residents:
+#         print(i)
+#
+#     print(home)
+#
+# print(COLORED_font.RED + f'============================ ИТОГИ ГОДА! ==========================')
+# print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
+#       '\nЗаработано: ', home.total_money, 'денег, '
+#       '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
 
 
 # ЧАСТЬ ВТОРАЯ
@@ -282,20 +300,54 @@ print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.
 
 class Cat:
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        self.house = None
+        self.fullness = 50
+        self.happiness = 100
+
+    def __str__(self):
+        return f'{self.name}, сытость {self.fullness}'
 
     def act(self):
-        pass
+        self.happiness -= 10
+        self.house.dirt += 5
+        if self.fullness <= 20:
+            self.eat()
+        elif self.happiness < 30:
+            self.soil()
+        else:
+            self.sleep()
 
     def eat(self):
-        pass
+        self.house.dirt += 5
+        if self.house.cat_food >= 30:
+            self.fullness += 30
+            self.house.cat_food -= 30
+            print(COLORED_font.CYAN + f'{self.name} покушал(а)' + RESET)
+        elif 30 > self.house.cat_food > 0:
+            self.fullness += self.house.cat_food
+            self.house.cat_food = 0
+            print(COLORED_font.CYAN + f'{self.name} покушал(а), но не досыта!!!' + RESET)
+        else:
+            print(COLORED_font.RED + f'{self.name} остался(лась) голодом, КОРМА НЕТ!')
 
     def sleep(self):
-        pass
+        self.fullness -= 10
+        print(COLORED_font.LIGHTGREEN_EX + f'{self.name} поспал!' + RESET)
 
     def soil(self):
-        pass
+        self.fullness -= 10
+        self.happiness += 50
+        self.house.dirt += 50
+        self.house.crash += 10
+        print(COLORED_font.BLUE + f"{self.name} ДРАЛ ОБОИ!!!" + RESET)
+
+    def leaving_into_house(self, house):
+        self.house = house
+        self.fullness -= 10
+        self.house.residents.append(self)
+        print(COLORED_font.RED + f'{self.name} теперь живёт в {self.house.name}')
 
 
 # ЧАСТЬ ВТОРАЯ БИС
@@ -337,22 +389,27 @@ class Child:
 # отправить на проверку учителем.
 
 
-# home = House()
-# serge = Husband(name='Сережа')
-# masha = Wife(name='Маша')
+home = House('Домик')
+serge = Husband(name='Сережа')
+masha = Wife(name='Маша')
 # kolya = Child(name='Коля')
-# murzik = Cat(name='Мурзик')
-#
-# for day in range(365):
-#     print('================== День {} =================='.format(day))
-#     serge.act()
-#     masha.act()
-#     kolya.act()
-#     murzik.act()
-#     print(serge)
-#     print(masha)
-#     print(kolya)
-#     print(murzik)
+murzik = Cat(name='Мурзик')
+serge.leaving_into_house(house=home)
+masha.leaving_into_house(house=home)
+murzik.leaving_into_house(house=home)
+
+for day in range(365):
+    print('================== День {} =================='.format(day))
+    home.act()
+    for i in home.residents:
+        print(i)
+
+    print(home)
+
+print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
+      '\nКорма для кошек: ', home.total_cat_food,
+      '\nЗаработано: ', home.total_money, 'денег, '
+      '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
 
 # Усложненное задание (делать по желанию)
 #
