@@ -330,9 +330,6 @@ class Child(Human):
         print(COLORED_font.BLUE + f'{self.name} поспал!' + RESET)
 
 
-# TODO после реализации второй части - отдать на проверку учителем две ветки
-
-
 #  ЧАСТЬ ТРЕТЬЯ
 #
 # после подтверждения учителем второй части (обеих веток)
@@ -343,19 +340,11 @@ class Child(Human):
 # home = House()
 # serge = Husband(name='Сережа')
 # masha = Wife(name='Маша')
-# kolya = Child(name='Коля')
+kolya = Child(name='Коля')
+kolya.leaving_into_house(house=home)
 # murzik = Cat(name='Мурзик')
 #
-# for day in range(365):
-#     print('================== День {} =================='.format(day))
-#     serge.act()
-#     masha.act()
-#     kolya.act()
-#     murzik.act()
-#     print(serge)
-#     print(masha)
-#     print(kolya)
-#     print(murzik)
+
 
 # Усложненное задание (делать по желанию)
 #
