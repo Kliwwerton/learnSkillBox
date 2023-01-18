@@ -1,4 +1,12 @@
 # -*- coding: utf-8 -*-
+import random
+
+import colorama
+
+
+COLORED_font = colorama.Fore
+COLORED_background = colorama.Back
+RESET = colorama.Style.RESET_ALL
 
 # ЧАСТЬ ПЕРВАЯ.
 #
@@ -41,54 +49,77 @@
 
 class Human:
     """Class Human"""
-    def __init__(self, name, house):
+    def __init__(self, name):
         self.name = name
-        self.house = house
+        self.house = None
         self.fullness = 30
         self.happiness = 100
 
     def __str__(self):
-        return f'Я {self.name}, сытость {self.fullness}, уровень счастья {self.happiness}'
+        return f'{self.name}, сытость {self.fullness}, уровень счастья {self.happiness}'
 
     def eat(self):
-        self.fullness += 30
-        self.house.food -= 30
-        return f'{self.name} покушал(а)'
+        if self.house.food >= 30:
+            self.fullness += 30
+            self.house.food -= 30
+            print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET)
+        elif 0 < self.house.food < 30:
+            self.fullness += self.house.food
+            self.house.food = 0
+            print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET,
+                  COLORED_background.RED + 'ЕДА КОНЧИЛАСЬ' + RESET)
+        else:
+            print(COLORED_font.RED + f'{self.name} остался(лась) голодом!!! ЕДЫ НЕТ!!!' + RESET)
 
-    def moving_into_house(self):
+    def leaving_into_house(self, house):
+        self.house = house
         self.house.residents.append(self)
+        self.fullness -= 10
+        print(COLORED_font.BLUE + f'{self.name}, въехал(а) в {self.house.name}' + RESET)
 
 
 class House:
+    total_money = 0
+    total_food = 0
+    total_fur_coat = 0
 
     def __init__(self, name):
         self.name = name
         self.money = 100
         self.food = 50
         self.dirt = 0
+        self.house_situation = True
         self.residents = []
 
     @staticmethod
     def my_residents(arg):
         string = ''
-        if len(arg) > 1:
-            string += 'здесь живут: '
-            for i in range(len(arg)-1):
-                string += arg[i].name + ', '
-            string += arg[-1].name
-        elif len(arg) == 1:
-            string += 'здесь живёт: ' + arg[0].name
+        if len(arg) == 1:
+            string += arg[0].name
+        elif len(arg) > 1:
+            for j in range(len(arg) - 2):
+                string += arg[j].name + ', '
+            string += arg[-2].name + ' и ' + arg[-1].name
         else:
-            string += 'НИКТО НЕ ЖИВЁТ!'
+            string += 'НИКТО ЗДЕСЬ НЕ ЖИВЁТ!'
         return string
 
     def __str__(self):
         str_1 = self.my_residents(self.residents)
-        return f'Я {self.name}, {str_1}\n' \
+        return f'Я {self.name}, здесь живут: {str_1}\n' \
                f'Еды в холодильнике {self.food}, денег в тумбочке {self.money}, грязи {self.dirt}'
 
     def act(self):
         self.dirt += 5
+        for k in self.residents:
+            if k.fullness <= 0:
+                print(COLORED_font.RED + f'{k.name} УМЕР(ЛА) ОТ ГОЛОДА!!!' + RESET)
+                self.residents.remove(k)
+            elif k.happiness < 10:
+                print(COLORED_font.RED + f'{k.name} УМЕР(ЛА) ОТ ДИПРЕССИИ!!!' + RESET)
+                self.residents.remove(k)
+            else:
+                k.act()
 
 
 class Husband(Human):
@@ -97,56 +128,127 @@ class Husband(Human):
         return super().__str__()
 
     def act(self):
-        pass
-
-    def eat(self):
-        pass
+        if self.house.house_situation:
+            if self.fullness <= 30:
+                self.eat()
+            elif self.house.money < 100:
+                self.work()
+            else:
+                dice = random.randint(1, 6)
+                if dice == 1:
+                    self.work()
+                elif dice == 2:
+                    if self.fullness < 100:
+                        self.eat()
+                    else:
+                        print(COLORED_font.LIGHTWHITE_EX + f'{self.name} сыт по горло!')
+                        self.gaming()
+                else:
+                    self.gaming()
+        else:
+            if self.fullness < 20:
+                self.eat()
+            else:
+                print(COLORED_font.LIGHTBLUE_EX + f'Жена депрессует!!!')
+                self.work()
 
     def work(self):
-        pass
+        self.fullness -= 10
+        self.house.money += 150
+        self.house.total_money += 150
+        self.happiness -= 10
+        print(COLORED_font.YELLOW + f'{self.name} сходил на работу!' + RESET)
 
     def gaming(self):
-        pass
+        self.fullness -= 10
+        if self.happiness < 100:
+            self.happiness += 20
+            if self.happiness > 100:
+                self.happiness = 100
+        print(COLORED_font.CYAN + f'{self.name} играл в WoT целый день!' + RESET)
 
 
-class Wife:
-
-    def __init__(self):
-        pass
+class Wife(Human):
 
     def __str__(self):
         return super().__str__()
 
     def act(self):
-        pass
+        if self.happiness <= 30:
+            self.house.house_situation = False
+            if any(isinstance(x, Husband) for x in self.house.residents):
+                print(COLORED_font.RED + f'{self.name} пилит мужа из-за наступающей депрессии!' + RESET)
+        else:
+            self.house.house_situation = True
 
-    def eat(self):
-        pass
+        if self.fullness < 30:
+            self.eat()
+        elif self.house.food < 30:
+            self.shopping()
+        elif self.house.dirt >= 90:
+            self.clean_house()
+        elif self.house.money > 350 and self.happiness <= 30:
+            self.buy_fur_coat()
+        else:
+            dice = random.randint(1, 2)
+            if dice == 1:
+                if self.fullness < 100:
+                    self.eat()
+                else:
+                    print(COLORED_font.YELLOW + f'{self.name} сыта по горло! Пойду посплю.' + RESET)
+                    self.fullness -= 10
+            else:
+                self.clean_house()
 
     def shopping(self):
-        pass
+        if self.house.money >= 100:
+            self.house.food += 100
+            self.house.total_food += 100
+            self.house.money -= 100
+            self.fullness -= 10
+            print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
+        elif self.house.money < 100:
+            self.house.food += self.house.money
+            self.house.total_food += self.house.money
+            self.house.money = 0
+            self.fullness -= 10
+            print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
+        else:
+            print(COLORED_font.RED + f'Денег нет, но вы держитесь! {self.name} '
+                                     f'не купила еды, потому что раздолбай муж их не заработал!!!')
 
     def buy_fur_coat(self):
-        pass
+        self.happiness += 60
+        self.house.money -= 350
+        self.fullness -= 10
+        self.house.total_fur_coat += 1
+        print(COLORED_font.GREEN + f'{self.name} купила себе новую шубу!' + RESET)
 
     def clean_house(self):
-        pass
+        self.house.dirt -= 100
+        if self.house.dirt <= 0:
+            self.house.dirt = 0
+        self.fullness -= 10
+        self.happiness -= 10
+        print(COLORED_font.LIGHTRED_EX + f'{self.name} прибралась в доме!' + RESET)
 
 
 home = House(name='Домик')
-serge = Husband(name='Сережа', house=home)
-# masha = Wife(name='Маша')
-serge.moving_into_house()
+serge = Husband(name='Сережа')
+masha = Wife(name='Маша')
+serge.leaving_into_house(house=home)
+masha.leaving_into_house(house=home)
 
 for day in range(365):
     print('================== День {} =================='.format(day))
-    serge.act()
-    # masha.act()
-    print(serge)
-    # print(masha)
     home.act()
-    print(home)
+    for i in home.residents:
+        print(i)
 
+    print(home)
+print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
+      '\nЗаработано: ', home.total_money, 'денег, ' 
+      '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
 
 # TODO после реализации первой части - отдать на проверку учителю
 
