@@ -64,13 +64,16 @@ class Human:
             self.fullness += 30
             self.house.food -= 30
             print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET)
+            return True
         elif 0 < self.house.food < 30:
             self.fullness += self.house.food
             self.house.food = 0
             print(COLORED_font.LIGHTGREEN_EX + f'{self.name} покушал(а)' + RESET,
                   COLORED_background.RED + 'ЕДА КОНЧИЛАСЬ' + RESET)
+            return True
         else:
             print(COLORED_font.RED + f'{self.name} остался(лась) голодом!!! ЕДЫ НЕТ!!!' + RESET)
+            return False
 
     def leaving_into_house(self, house):
         self.house = house
@@ -198,15 +201,17 @@ class Wife(Human):
         else:
             self.house.house_situation = True
 
-        if self.fullness < 30:
-            self.eat()
+        if self.fullness < 30:  # TODO Need Modification this code
+            if not self.eat():
+                self.shopping()
+            else:
+                self.eat()
         elif self.house.food < 30:
             self.shopping()
         elif self.house.cat_food < 20:
             self.cat_food_shopping()
-        elif self.house.crash > 90:
+        elif self.house.crash > 90 and not self.house.building_materials:
             self.shopping_building_materials()
-
         elif self.house.dirt >= 90:
             self.clean_house()
         elif self.house.money > 350 and self.happiness <= 30:
@@ -227,7 +232,7 @@ class Wife(Human):
             self.house.food += 100
             self.house.total_food += 100
             self.house.money -= 100
-            self.happiness += 20
+            self.happiness += 10
             self.fullness -= 10
             print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
         elif self.house.money < 100:
@@ -256,7 +261,7 @@ class Wife(Human):
         self.house.building_materials = True
         self.fullness -= 10
         self.house.money -= 100
-        self.happiness += 10
+        self.happiness += 5
         self.house.total_buildings_materials += 1
         print(COLORED_font.LIGHTMAGENTA_EX + f'{self.name} купила обои для ремонта!' + RESET)
 
@@ -290,12 +295,6 @@ class Wife(Human):
 #
 #     print(home)
 #
-# print(COLORED_font.RED + f'============================ ИТОГИ ГОДА! ==========================')
-# print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
-#       '\nЗаработано: ', home.total_money, 'денег, '
-#       '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
-
-
 # ЧАСТЬ ВТОРАЯ
 #
 # После подтверждения учителем первой части надо
@@ -395,11 +394,6 @@ class Child(Human):
         else:
             self.sleep()
 
-    def eat(self):
-        self.house.food -= 30
-        self.fullness += 30
-        print(COLORED_font.BLUE + f'{self.name} покушал.' + RESET)
-
     def sleep(self):
         self.fullness -= 10
         print(COLORED_font.BLUE + f'{self.name} поспал!' + RESET)
@@ -415,7 +409,7 @@ class Child(Human):
 home = House('Домик')
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
-kolya = Child(name='Коля')
+kolya = Child(name='Сын Коля')
 murzik = Cat(name='Мурзик')
 serge.leaving_into_house(house=home)
 masha.leaving_into_house(house=home)
