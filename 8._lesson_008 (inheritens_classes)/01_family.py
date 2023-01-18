@@ -92,7 +92,7 @@ class House:
         self.residents = []
 
     @staticmethod
-    def my_residents(arg):
+    def my_residents(arg: list) -> str:
         string = ''
         if len(arg) == 1:
             string += arg[0].name
@@ -205,6 +205,7 @@ class Wife(Human):
             self.house.food += 100
             self.house.total_food += 100
             self.house.money -= 100
+            self.happiness += 20
             self.fullness -= 10
             print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
         elif self.house.money < 100:
@@ -212,6 +213,7 @@ class Wife(Human):
             self.house.total_food += self.house.money
             self.house.money = 0
             self.fullness -= 10
+            self.happiness += 10
             print(COLORED_font.MAGENTA + f'{self.name} сходила за покупками!' + RESET)
         else:
             print(COLORED_font.RED + f'Денег нет, но вы держитесь! {self.name} '
@@ -246,11 +248,12 @@ for day in range(365):
         print(i)
 
     print(home)
+
+print(COLORED_font.RED + f'============================ ИТОГИ ГОДА! ==========================')
 print(COLORED_font.LIGHTCYAN_EX + 'Всего за год купили: ', home.total_food, 'еды',
       '\nЗаработано: ', home.total_money, 'денег, ' 
       '\nКуплено: ', home.total_fur_coat, 'шуб' + RESET)
 
-# TODO после реализации первой части - отдать на проверку учителю
 
 # ЧАСТЬ ВТОРАЯ
 #
