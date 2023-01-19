@@ -86,6 +86,10 @@ class Human:
         self.fullness -= 10
         print(COLORED_font.BLUE + f'{self.name}, въехал(а) в {self.house.name}' + RESET)
 
+    def check_mood(self):
+        if self.house.dirt > 90:
+            self.happiness -= 10
+
 
 class House:
     total_money = 0
@@ -140,6 +144,7 @@ class House:
 class Husband(Human):
 
     def act(self):
+        self.check_mood()
         if self.house.house_situation:
             if self.fullness <= 30:
                 self.eat()
@@ -196,6 +201,7 @@ class Husband(Human):
 class Wife(Human):
 
     def act(self):
+        self.check_mood()
         if self.happiness <= 30 or self.house.money < 30:
             self.house.house_situation = False
             if any(isinstance(x, Husband) for x in self.house.residents):
@@ -279,7 +285,7 @@ class Wife(Human):
         if self.house.dirt <= 0:
             self.house.dirt = 0
         self.fullness -= 10
-        self.happiness -= 10
+        self.happiness -= 5
         print(COLORED_font.LIGHTRED_EX + f'{self.name} прибралась в доме!' + RESET)
 
 
@@ -366,13 +372,13 @@ class Cat:
     def soil(self):
         self.fullness -= 10
         self.happiness += 50
-        self.house.dirt += 50
+        self.house.dirt += 20
         self.house.crash += 10
         print(COLORED_font.BLUE + f"{self.name} ДРАЛ ОБОИ!!!" + RESET)
 
     def shat(self):
         self.fullness -= 5
-        self.house.dirt += 30
+        self.house.dirt += 20
         self.house.crash += 5
         print(COLORED_font.LIGHTGREEN_EX + f'{self.name} нагадил в угол!' + RESET)
 
