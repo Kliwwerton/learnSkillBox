@@ -31,7 +31,7 @@ file_content = file.read()
 file.close()
 pprint(file_content)
 
-# Если режим будет 'r' то  автоматически перекодируется из UTF8, но можно указать кодировку
+# Если режим будет 'r' то,  автоматически перекодируется из UTF8, но можно указать кодировку
 file_name = 'pushkin.txt'
 file = open(file_name, mode='r')  # mode (режим): чтение символьное
 # file = open(file_name, mode='r', encoding='utf8')

@@ -55,7 +55,7 @@ bb = b'\xd0\xbf\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82'
 print(bb)
 print(type(bb))
 # по сути это неизменяемые последовательности целых чисел,
-# поддерживают те же операции что и str
+# поддерживают те же операции, что и str
 print(bb[0])
 print(bb.count(0xd0))
 print(b'he' + b'llo')
@@ -66,7 +66,7 @@ print(b'he' + b'llo')
 # Пусть есть байты
 bb = b'\xd1\x84'
 # Это UTF-8 представление русской буквы. Какой?
-# давайте разберем (на основе описания формата  - https://goo.gl/Um4xUz)
+# Давайте разберем (на основе описания формата  - https://goo.gl/Um4xUz)
 print(bin(0xd1))
 print(bin(0x84))
 # 0b11010001
@@ -107,7 +107,7 @@ print(bytearray('привет'.encode(encoding='utf-8')))
 print('привет'.encode(encoding='utf-8'))
 print('привет'.encode(encoding='utf-16'))
 print('привет'.encode(encoding='cp866'))
-# то есть мы хотим ЗАКОДИРОВАТЬ коды уникода в нужное представление
+# то есть мы хотим ЗАКОДИРОВАТЬ коды юникода в нужное представление
 
 # список всех кодировок - https://docs.python.org/3.5/library/codecs.html#standard-encodings
 
@@ -122,5 +122,3 @@ print(ss)
 # -*- coding: utf-8 -*-
 # если такого комментария нет - то предполагается UTF-8
 # https://docs.python.org/3/reference/lexical_analysis.html#encoding-declarations
-
-
