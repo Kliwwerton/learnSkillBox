@@ -6,15 +6,38 @@
 # window.mainloop()
 
 from kivy.app import App
+from kivy import Config
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 
+Config.set('graphics', 'width', 1000)
+Config.set('graphics', 'height', 800)
+
+
+class My_popup(Popup):
+    size_hint = 0.8, 0.2
+
+    content = BoxLayout()
+    # button = Button(text='Закрой меня!',
+    #                  size_hint=(0.5, 0.3),
+    #                  pos_hint={'x': 0.5, 'y': 0.2})
+    # content.add_widget(button)
+
 
 def on_press_button(a):
-    new_window = Popup(title='Расчёт давления прессования')
-    print('Вы нажали на кнопку!')
+    new_window = My_popup(title='Расчёт давления прессования')
+    button = Button(text='Hello', size_hint=(0.5, 0.2))
+    new_window.content.add_widget(button)
+    button.bind(on_release=new_window.dismiss)
+
+    # new_window.size_hint = 0.6, 0.2
+    # new_window.button = Button(text="Hello", size_hint=(0.5, 0.1), pos_hint={'x': 0.5, 'y': 0.1})
+
+    # new_window.add_widget(new_window.button)
+    new_window.open()
+    print('Вы нажали на кнопку! РАСЧЁТ ДАВЛЕНИЯ ПРЕССОВАНИЯ')
 
 
 def on_press_button_2(a):
@@ -40,8 +63,8 @@ class My_windowApp(App):
                      size_hint=(0.6, 0.1),
                      pos_hint={'center_x': 0.5, 'center_y': 0.5},
                      background_color=[0.5, 1, 1, 1],
-                     text=f'{"Расчёт давления прессования": ^100}')
-        btn_2 = Button(text='Расчёт \nхимического состава',
+                     text=f'{"Расчёт давления прессования"}')
+        btn_2 = Button(text='Расчёт химического состава',
                        size_hint=(0.6, 0.1),
                        pos_hint={'center_x': 0.5, 'center_y': 0.5},
                        background_color=[0.5, 1, 0.5, 1])
