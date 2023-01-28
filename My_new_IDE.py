@@ -17,19 +17,15 @@ Config.set('graphics', 'height', 800)
 
 
 class My_popup(Popup):
-    size_hint = 0.8, 0.2
-
-    content = BoxLayout()
-    # button = Button(text='Закрой меня!',
-    #                  size_hint=(0.5, 0.3),
-    #                  pos_hint={'x': 0.5, 'y': 0.2})
-    # content.add_widget(button)
+    size_hint = 0.5, 0.2
 
 
 def on_press_button(a):
     new_window = My_popup(title='Расчёт давления прессования')
-    button = Button(text='Hello', size_hint=(0.5, 0.2))
-    new_window.content.add_widget(button)
+    new_window.auto_dismiss = False
+    # content = BoxLayout()
+    button = Button(text='Exit', size_hint=(0.1, 0.4), pos_hint={'x': 0.9, 'y': 0.2})
+    new_window.add_widget(button)
     button.bind(on_release=new_window.dismiss)
 
     # new_window.size_hint = 0.6, 0.2
