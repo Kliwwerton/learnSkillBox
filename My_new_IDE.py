@@ -10,22 +10,24 @@ from kivy import Config
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
+from kivy.uix.anchorlayout import AnchorLayout
 
 Config.set('graphics', 'width', 1000)
 Config.set('graphics', 'height', 800)
 
 
 class My_popup(Popup):
-    size_hint = 0.5, 0.2
+    size_hint = 0.5, 0.4
 
 
 def on_press_button(a):
     new_window = My_popup(title='Расчёт давления прессования')
     new_window.auto_dismiss = False
-    # content = BoxLayout()
-    button = Button(text='Exit', size_hint=(0.1, 0.4), pos_hint={'x': 0.9, 'y': 0.2})
-    new_window.add_widget(button)
+    new_window.content = AnchorLayout(anchor_x = 'right', anchor_y = 'bottom')
+    button = Button(text='Exit', size_hint=(0.2, 0.1))
+    new_window.content.add_widget(button)
     button.bind(on_release=new_window.dismiss)
 
     # new_window.size_hint = 0.6, 0.2
@@ -63,7 +65,8 @@ class My_windowApp(App):
         btn_2 = Button(text='Расчёт химического состава',
                        size_hint=(0.6, 0.1),
                        pos_hint={'center_x': 0.5, 'center_y': 0.5},
-                       background_color=[0.5, 1, 0.5, 1])
+                       background_color=[0.5, 1, 0.5, 1],
+                       font_size=32)
         btn_3 = Button(text='Справочник\n(ГОСТы, Классы шамота',
                        size_hint=(0.6, 0.1), font_size=25,
                        pos_hint={'center_x': 0.5, 'center_y': 0.5})
