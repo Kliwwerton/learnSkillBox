@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# import tkinter as tk
-#
-# window = tk.Tk()
-# window.mainloop()
-
 from kivy.app import App
 from kivy import Config
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.anchorlayout import AnchorLayout
 
@@ -25,7 +19,7 @@ class My_popup(Popup):
 def on_press_button(a):
     new_window = My_popup(title='Расчёт давления прессования')
     new_window.auto_dismiss = False
-    new_window.content = AnchorLayout(anchor_x = 'right', anchor_y = 'bottom')
+    new_window.content = AnchorLayout(anchor_x='right', anchor_y='bottom')
     button = Button(text='Exit', size_hint=(0.2, 0.1))
     new_window.content.add_widget(button)
     button.bind(on_release=new_window.dismiss)
@@ -57,7 +51,7 @@ class My_windowApp(App):
                       size_hint=(0.2, 0.1),
                       pos_hint={'center_x': 0.5, 'center_y': 1})
 
-        btn = Button( font_size=25,
+        btn = Button(font_size=25,
                      size_hint=(0.6, 0.1),
                      pos_hint={'center_x': 0.5, 'center_y': 0.5},
                      background_color=[0.5, 1, 1, 1],
@@ -84,7 +78,6 @@ class My_windowApp(App):
         btn_2.bind(on_press=on_press_button_2)
         btn_3.bind(on_press=on_press_button_3)
         btn_4.bind(on_press=on_press_button_4)
-
 
         return layout
 
